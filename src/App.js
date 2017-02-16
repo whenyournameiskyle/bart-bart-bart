@@ -3,6 +3,7 @@ import './style.css'
 
 import Station from './components/station'
 import StationList from './components/station-list'
+import Header from './components/header'
 
 class App extends React.Component {
   constructor(props) {
@@ -48,11 +49,12 @@ class App extends React.Component {
     return (
       <div>
       {this.state.loading
-        ? <div className='header'> Loading...</div>
-        : <div className='appBody'>
-            
+        ? <Header
+            text='Loading...'
+          />
+        : <div>
             {this.state.selectedStation
-              ? <Station 
+              ? <Station
                   stationAbbr={this.state.selectedStation}
                   onBackClick={this.toStationList}
                 />
