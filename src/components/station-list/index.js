@@ -2,6 +2,7 @@ import React from 'react'
 import '../../style.css'
 
 import StationButton from '../../components/station-button'
+import Header from '../../components/header'
 
 class StationList extends React.Component {
   constructor(props) {
@@ -11,6 +12,9 @@ class StationList extends React.Component {
   render() {
     return (
       <div>
+        <Header
+          text='Select Station'
+        />
         {this.props.stationList.map((station, idx) => {
           return (
             <StationButton
