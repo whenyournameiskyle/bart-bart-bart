@@ -6,18 +6,17 @@ class Destination extends React.Component {
     super()
   }
 
+
+
   render() {
     return (
-      <div className='stationInfo'>
-        <div className='stationName'>{this.props.destination.name}</div>
-        <div className='stationText'>
-        {
-          this.props.destination.trains.map((train, idx) => {
-            return (
-              <div key={idx}>{train.minutesUntil} minutes – {train.cars} cars</div>
-            )
-          })
-        }
+      <div className='destinationContainer'>
+        <div className='destinationText'>{this.props.destination.name}</div>
+        <div className='trainTimeContainer'>
+          { this.props.destination.trains.map((train, idx) => {
+            return ( <div className='trainText' key={idx}><span className='trainMinuteText'>{train.minutesUntil} min</span> <span className='trainCarText'>({train.cars} car)</span></div> )
+            })
+          }
         </div>
       </div>
     )

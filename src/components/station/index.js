@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../style.css'
 
-import StationTimes from '../../components/station-times'
+import PlatformDirection from '../../components/platform-direction'
 import Header from '../../components/header'
 
 class Station extends React.Component {
@@ -40,12 +40,12 @@ class Station extends React.Component {
       let upcomingTrains = []
       for (var j = 0; j < destinations[i].estimate.length; j++) {
         upcomingTrains.push({
-          minutesUntil: destinations[i].estimate[j].minutes, 
+          minutesUntil: destinations[i].estimate[j].minutes === 'Leaving' ? 'Now' : destinations[i].estimate[j].minutes-1,
           cars: destinations[i].estimate[j].length
         })
       }
       const estObj = {
-        name: destinations[i].destination,  
+        name: destinations[i].destination,
         trains: upcomingTrains
       }
       destinations[i].estimate[0].direction === 'North' ? stationProps.northbound.push(estObj) : stationProps.southbound.push(estObj)
@@ -55,6 +55,10 @@ class Station extends React.Component {
 
   componentDidMount () {
   	this.fetchStationInfo(this.props.stationAbbr)
+    setTimeout(() => {
+      console.log('updating times')
+      this.fetchStationInfo(this.props.stationAbbr)
+    }, 60000);
   }
 
   render () {
@@ -71,9 +75,14 @@ class Station extends React.Component {
 		      showBackButton
 		      onClick={this.props.onBackClick}
 	      	/>
-		    <StationTimes
-			  selectedStation={this.state.stationInfo}
-			/>
+		    <PlatformDirection
+  			  direction='Northbound'
+          destinations={this.state.stationInfo.northbound}
+  			/>
+        <PlatformDirection
+          direction='Southbound'
+          destinations={this.state.stationInfo.southbound}
+        />
 		  </div>
 	  }
 	  </div>
