@@ -13,7 +13,7 @@ class StationList extends React.Component {
     return (
       <div>
         <Header
-          text='Select Station'
+          text='Select BART Station'
         />
         {this.props.stationList.map((station, idx) => {
           return (

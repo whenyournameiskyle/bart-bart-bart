@@ -47,7 +47,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='appBody'>
       {this.state.loading
         ? <Header
             text='Loading...'
