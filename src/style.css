@@ -1,36 +1,58 @@
-.stationButton {
-  width: 100%;
-  height: 4rem;
-  display: block;
-  background-color: white;
-  border: none;
-  border-top: 0.25px solid #777;
-  border-bottom: 0.25px solid #777;
-  color: #777;
-  font-weight: 300;
-  font-size: 1rem;
-  margin-bottom: 5px;
+.headerContainer {
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem;
 }
 
-.header {
-  margin: 15px;
+.headerTextContainer {
   font-size: 1.5rem;
-  font-weight: 300;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   text-align: center;
 }
 
 .headerText {
+  font-weight: 500;
+  font-size: 1.75rem;
   margin: 0 auto;
+}
+
+.headerTime {
+  padding-bottom: 5px;
+  font-size: 1rem;
 }
 
 .subheader {
   font-size: 1.2rem;
 }
 
+.directionHeader {
+  justify-content: center;
+  padding: 5px 0px;
+  margin: 5px 0px;
+  background-color: #444;
+  color: #fff;
+}
+
+.stationButton {
+  width: 100%;
+  height: 4rem;
+  border-radius: 10px;
+  box-shadow: 0px 2px 2px #888;
+  border: none;
+  color: #fff;
+  background-color: #444;
+  font-weight: 300;
+  font-size: 1.25rem;
+  margin-bottom: 5px;
+}
+
 .backButton {
   position: absolute;
-  left: 0;
   font-size: 1.6rem;
   font-weight: 300;
   background-color: white;
@@ -38,28 +60,35 @@
   color: #777;
 }
 
-.directionHeader {
-  justify-content: center;
-  border-bottom: 0.25px solid #777;
-  margin: 10px 0px;
-  padding: 5px 0px;
-  letter-spacing: 1rem;
-}
-
 .stationInfo {
   padding-left: 5px;
 }
 
-.stationName {
+.destinationText {
+  font-size: 1.15rem;
   text-align: left;
-  font-weight: 500;
-  font-size: 1.05rem;
-  padding-bottom: 2px;
-  
 }
 
-.stationText {
+.destinationContainer {
+  padding: 5px 0px;
+}
+
+.trainText {
   text-align: left;
+  padding-right: 10px;
+}
+
+.trainMinuteText {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.trainCarText {
+  font-size: 0.75rem;
+}
+
+.trainTimeContainer {
+  display: flex;
+  flex-direction: row;
   padding-left: 5px;
-  padding-bottom: 5px;
 }
