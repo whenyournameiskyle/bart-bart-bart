@@ -22,7 +22,7 @@ class App extends React.Component {
 
   fetchStations() {
     this.setState({loading : true}, () => {
-      return fetch('http://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y')
+      return fetch('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y')
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({stationList : responseJson.root.stations.station, loading: false})

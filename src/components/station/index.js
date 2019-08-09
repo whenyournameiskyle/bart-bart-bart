@@ -17,7 +17,7 @@ class Station extends React.Component {
   fetchStationInfo (stationAbbr) {
   	this.setState({loading : true}, () => {
       if (stationAbbr) {
-        fetch('http://api.bart.gov/api/etd.aspx?cmd=etd&orig=' + stationAbbr + '&key=MW9S-E7SL-26DU-VV8V&json=y')
+        fetch('https://api.bart.gov/api/etd.aspx?cmd=etd&orig=' + stationAbbr + '&key=MW9S-E7SL-26DU-VV8V&json=y')
         .then((response) => response.json())
         .then((responseJson) => {
           this.handleStationInformation(responseJson.root.station[0])
