@@ -1,29 +1,46 @@
 import React from 'react'
-import '../../style.css'
+import { func, number, string } from 'prop-types'
+import styled from '@emotion/styled'
 
-class StationButton extends React.Component {
-  constructor(props) {
-    super()
-
-    this.handleStationClick = this.handleStationClick.bind(this)
+export default class StationButton extends React.Component {
+  static propTypes = {
+    index: number,
+    onClick: func,
+    stationAbbr: string,
   }
 
-  handleStationClick() {
-    if (this.props.onClick) this.props.onClick(this.props.stationAbbr)
+  handleStationClick = () => {
+    const { onClick, stationAbbr } = this.props
+    if (onClick) onClick(stationAbbr)
   }
 
   render() {
+    const {
+      children,
+      index
+    } = this.props
+
     return (
-      <button className='stationButton' onClick={this.handleStationClick} > {this.props.stationName} </button>
+      <StyledButton 
+        className='StationButton' 
+        index={index}
+        onClick={this.handleStationClick} 
+      > 
+        {children}
+      </StyledButton>
     )
   }
 }
 
-StationButton.propTypes = {
-  onClick: React.PropTypes.func,
-  stationName: React.PropTypes.string,
-  stationAbbr: React.PropTypes.string,
-}
-
-export default StationButton
-
+const StyledButton = styled.button`
+  background-color: ${({index}) => index % 2 === 0 ? '#666' : '#888'};
+  border-radius: 5px;
+  border: none;
+  color: #ddd;
+  font-size: 1.6rem;
+  font-weight: 300;
+  height: 4rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  width: 100%;
+`

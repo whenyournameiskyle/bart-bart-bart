@@ -1,38 +1,70 @@
 import React from 'react'
-import '../../style.css'
+import { bool, func, string } from 'prop-types'
+import styled from '@emotion/styled'
 
-class Header extends React.Component {
-  constructor(props) {
-    super()
+export default class Header extends React.Component {
+  static propTypes = {
+    onClick: func,
+    showBackButton: bool,
+    text: string,
   }
 
   render() {
+    const {
+      children,
+      onClick,
+      showBackButton,
+      text,
+    } = this.props
+    
     let time = new Date()
     let hour = time.getHours() 
     hour = (hour > 12) ? (hour - 12) : (hour === 0 ? (hour + 12) : hour) 
     let minute = time.getMinutes().toString()
     minute = minute.length === 1 ? ('0' + minute) : minute
     time = hour + ':' + minute
+    
     return (
-      <div className='headerContainer'>
-        {this.props.showBackButton 
-          ? <button className='backButton' onClick={this.props.onClick}>{'←'}</button>
+      <HeaderContainer className='HeaderContainer'>
+        {showBackButton 
+          ? <BackButton 
+              className='BackButton' 
+              onClick={onClick}
+            >
+              ←
+            </BackButton>
           : null
         }
-        <div className='headerTextContainer'>
-          <div className='headerTime'>{time}</div>
-          <div className='headerText'>{this.props.text}</div>
+        <div>
+          <div>{children}</div>
+          <TimeText className='TimeText'>{time}</TimeText>
         </div>
-      </div>
+      </HeaderContainer>
     )
   }
 }
 
-Header.propTypes = {
-  text: React.PropTypes.string,
-  showBackButton: React.PropTypes.bool,
-  onClick: React.PropTypes.func
-}
+const HeaderContainer = styled.div`
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0.5rem 2rem;
+  position: relative;
+`
 
-export default Header
+const BackButton = styled.button`
+  background-color: #111;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 300;
+  left: 0;
+  padding: 0.5rem;
+  position: absolute;
+`
 
+const TimeText = styled.div`
+  font-size: 0.9rem;
+`

@@ -1,23 +1,16 @@
 import React from 'react'
-import './style.css'
+import styled from '@emotion/styled'
 
 import Station from './components/station'
 import StationList from './components/station-list'
 import Header from './components/header'
 
-class App extends React.Component {
-  constructor(props) {
-    super()
-
-    this.state = {
-      stationList: [],
-      selectedStation: null,
-      loading: false,
-      error: null
-    }
-
-    this.handleStationClick = this.handleStationClick.bind(this)
-    this.toStationList = this.toStationList.bind(this)
+export default class App extends React.Component {
+  state = {
+    stationList: [],
+    selectedStation: null,
+    loading: false,
+    error: null
   }
 
   fetchStations() {
@@ -33,11 +26,11 @@ class App extends React.Component {
     })
   }
 
-  handleStationClick(stationAbbr) {
+  handleStationClick = (stationAbbr) => {
     this.setState({selectedStation : stationAbbr})
   }
 
-  toStationList() {
+  toStationList = () => {
     this.setState({selectedStation : null})
   }
 
@@ -46,29 +39,38 @@ class App extends React.Component {
   }
 
   render() {
+    const {
+      loading,
+      selectedStation,
+      stationList,
+    } = this.state
+
     return (
-      <div className='appBody'>
-      {this.state.loading
-        ? <Header
-            text='Loading...'
-          />
-        : <div>
-            {this.state.selectedStation
-              ? <Station
-                  stationAbbr={this.state.selectedStation}
-                  onBackClick={this.toStationList}
-                />
-              : <StationList
-                  onClick={this.handleStationClick}
-                  stationList={this.state.stationList}
-                />
-            }
-          </div>
-      }
-      </div>
+      <AppBody>
+        {selectedStation
+          ? <Station
+              stationAbbr={selectedStation}
+              onBackClick={this.toStationList}
+            />
+          : <StationList
+              onClick={this.handleStationClick}
+              stationList={stationList}
+            />
+        }
+      </AppBody>
     )
   }
 }
+//#4682b4;
+const AppBody = styled.div`
+  background-color: #111;
+  color: #ddd;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  height: 100%;
 
-export default App
-
+  @media(max-width: 768px) { 
+    font-size: 1.6rem;
+  }
+`

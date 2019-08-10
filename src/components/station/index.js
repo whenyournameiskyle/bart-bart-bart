@@ -1,17 +1,22 @@
 import React from 'react'
-import '../../style.css'
+import { func, string } from 'prop-types'
 
 import PlatformDirection from '../../components/platform-direction'
 import Header from '../../components/header'
 
-class Station extends React.Component {
-  constructor(props) {
-    super()
+export default class Station extends React.Component {
+  static propTypes = {
+    onBackClick: func,
+    stationAbbr: string,
+  }
 
-    this.state = {
-      stationInfo: null,
-      loading: false
-    }
+  state = {
+    stationInfo: {
+      name: '',
+      northbound: [],
+      southbound: []
+    },
+    loading: false
   }
 
   fetchStationInfo (stationAbbr) {
@@ -40,58 +45,71 @@ class Station extends React.Component {
       let upcomingTrains = []
       for (var j = 0; j < destinations[i].estimate.length; j++) {
         upcomingTrains.push({
+          cars: destinations[i].estimate[j].length,
+          color: destinations[i].estimate[j].color.toLowerCase(),
           minutesUntil: destinations[i].estimate[j].minutes === 'Leaving' ? 'Now' : destinations[i].estimate[j].minutes-1,
-          cars: destinations[i].estimate[j].length
         })
       }
+
       const estObj = {
         name: destinations[i].destination,
         trains: upcomingTrains
       }
-      destinations[i].estimate[0].direction === 'North' ? stationProps.northbound.push(estObj) : stationProps.southbound.push(estObj)
+
+      destinations[i].estimate[0].direction === 'North' 
+        ? stationProps.northbound.push(estObj) 
+        : stationProps.southbound.push(estObj)
     }
-    this.setState({stationInfo : stationProps, loading: false})
+
+    this.setState(prevState => ({
+      loading: false,
+      stationInfo: {
+        ...prevState.stationInfo,
+        ...stationProps
+      }
+    }))
   }
 
   componentDidMount () {
-  	this.fetchStationInfo(this.props.stationAbbr)
+    const {
+      stationAbbr
+    } = this.props
+
+  	this.fetchStationInfo(stationAbbr)
+
     setTimeout(() => {
-      console.log('updating times')
-      this.fetchStationInfo(this.props.stationAbbr)
-    }, 60000);
+      console.info('updating BART times')
+      this.fetchStationInfo(stationAbbr)
+    }, 60000)
   }
 
   render () {
+    const {
+      onBackClick
+    } = this.props
+    
+    const {
+      loading,
+      stationInfo
+    } = this.state
+
     return (
       <div>
-   	  {
-   	  	(!this.state.stationInfo || this.state.loading)
-   	  	? <Header
-   	  		text='Loading...'
-   	  	  />
-   	  	: <div>
-   	  		<Header
-		      text={this.state.stationInfo.name}
-		      showBackButton
-		      onClick={this.props.onBackClick}
-	      	/>
-		    <PlatformDirection
+ 	  		<Header
+	       showBackButton
+	       onClick={onBackClick}
+      	>
+          {!stationInfo.name || loading ? 'Loading...' : stationInfo.name}
+        </Header>
+  	    <PlatformDirection
   			  direction='Northbound'
-          destinations={this.state.stationInfo.northbound}
+          destinations={stationInfo.northbound}
   			/>
         <PlatformDirection
           direction='Southbound'
-          destinations={this.state.stationInfo.southbound}
+          destinations={stationInfo.southbound}
         />
-		  </div>
-	  }
-	  </div>
+	   </div>
     )
   }
 }
-
-Station.propTypes = {
-  stationAbbr: React.PropTypes.string,
-}
-
-export default Station

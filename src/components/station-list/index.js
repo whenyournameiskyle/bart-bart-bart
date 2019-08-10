@@ -1,38 +1,42 @@
 import React from 'react'
-import '../../style.css'
+import { array, func } from 'prop-types'
 
 import StationButton from '../../components/station-button'
 import Header from '../../components/header'
 
-class StationList extends React.Component {
-  constructor(props) {
-    super()
+export default class StationList extends React.Component {
+  static propTypes = {
+    onClick: func,
+    stationList: array,
   }
 
   render() {
+    const {
+      onClick,
+      stationList,
+    } = this.props
+
     return (
-      <div>
-        <Header
-          text='Select BART Station'
-        />
-        {this.props.stationList.map((station, idx) => {
-          return (
-            <StationButton
-              key={station.abbr}
-              onClick={this.props.onClick}
-              stationName={station.name}
-              stationAbbr={station.abbr}
-            />
-          )
-        })}
+      <div className='StationListContainer'>
+        <Header>
+          Select BART Station
+        </Header>
+        {stationList.length 
+          ? stationList.map((station, index) => {
+            return (
+              <StationButton
+                index={index}
+                key={station.abbr}
+                onClick={onClick}
+                stationAbbr={station.abbr}
+              >
+                {station.name}
+              </StationButton>
+            )
+          })
+          : <div>Loading...</div>
+        }
       </div>
     )
   }
 }
-
-StationList.propTypes = {
-  stationList: React.PropTypes.array,
-}
-
-export default StationList
-

@@ -1,34 +1,45 @@
 import React from 'react'
-import '../../style.css'
+import { array, string } from 'prop-types'
+import styled from '@emotion/styled'
 
 import Destination from '../../components/destination'
 
-class PlatformDirection extends React.Component {
-  constructor(props) {
-    super()
+export default class PlatformDirection extends React.Component {
+  static propTypes = {
+    direction: string,
+    destinations: array
   }
 
   render() {
+    const {
+      destinations,
+      direction,
+    } = this.props
+
     return (
-      <div>
-        <div className='header subheader directionHeader'>{this.props.direction}</div>
-          {this.props.destinations.map((destination, idx) => {
+      <PlatformDirectionContainer className='PlatformDirectionContainer'>
+        <PlatformDirectionHeader className='PlatformDirectionHeader'>
+          {direction}
+        </PlatformDirectionHeader>
+          {destinations.map((destination, idx) => {
             return (
               <Destination
-                key={idx}
                 destination={destination}
+                key={idx}
               />
             )
           })}
-      </div>
+      </PlatformDirectionContainer>
     )
   }
 }
 
-PlatformDirection.propTypes = {
-  direction: React.PropTypes.string,
-  destinations: React.PropTypes.array
-}
+const PlatformDirectionContainer = styled.div`
+  padding-bottom: 0.5rem;
+`
 
-export default PlatformDirection
-
+const PlatformDirectionHeader = styled.div`
+  background-color: slategray;
+  letter-spacing: 0.04em;
+  padding: 0.75rem 0;
+`

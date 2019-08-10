@@ -1,32 +1,72 @@
 import React from 'react'
+import { object } from 'prop-types'
+import styled from '@emotion/styled'
+
 import '../../style.css'
 
-class Destination extends React.Component {
-  constructor(props) {
-    super()
+export default class Destination extends React.Component {
+  static propTypes = {
+    destination: object,
   }
 
-
-
   render() {
+    const {
+      destination
+    } = this.props
+
     return (
-      <div className='destinationContainer'>
-        <div className='destinationText'>{this.props.destination.name}</div>
-        <div className='trainTimeContainer'>
-          { this.props.destination.trains.map((train, idx) => {
-            return ( <div className='trainText' key={idx}><span className='trainMinuteText'>{train.minutesUntil} min</span> <span className='trainCarText'>({train.cars} car)</span></div> )
+      <DestinationContainer className='DestinationContainer'>
+        <DestinationText color={destination.trains[0].color}>
+          {destination.name}
+        </DestinationText>
+        <TrainsContainer className='TrainsContainer'>
+          {destination.trains && destination.trains.map((train, idx) => {
+            return ( 
+              <div key={idx}>
+                <span className='trainMinuteText'>
+                  {train.minutesUntil === 'Now' 
+                    ? train.minutesUntil 
+                    : `${train.minutesUntil} min`
+                  }
+                </span>
+                <span className='trainCarText'> ({train.cars} car)</span>
+              </div>
+            )
             })
           }
-        </div>
-      </div>
+        </TrainsContainer>
+      </DestinationContainer>
     )
   }
 }
 
-Destination.propTypes = {
-  destination: React.PropTypes.object,
-}
+const DestinationContainer = styled.div`
+  font-size: 1.15rem;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  text-align: left;
+`
 
-export default Destination
+const DestinationText = styled.div`
+  background-color: ${({color}) => color || 'slategray'};
+  color: #333;
+  padding: 0.5rem;
+`
 
+const TrainsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 0.5rem 0.5rem;
+  text-align: left;
+
+  .trainMinuteText {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .trainCarText {
+    font-size: 0.75rem;
+    padding-right: 0.25rem;
+  }
+`
 
