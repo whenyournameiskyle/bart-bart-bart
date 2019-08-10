@@ -76,6 +76,8 @@ const AppBody = styled.div`
   font-family: Helvetica, sans-serif;
   font-size: 1.5rem;
   height: 100%;
+  margin: 0 auto;
+  max-width: 50rem;
   text-align: center;
 
   @media(max-width: 768px) { 

@@ -34,13 +34,15 @@ export default class StationButton extends React.Component {
 
 const StyledButton = styled.button`
   background-color: ${({index}) => index % 2 === 0 ? '#666' : '#888'};
-  border-radius: 5px;
   border: none;
   color: #ddd;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 300;
   height: 4rem;
+  letter-spacing: 0.03em;
   margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  text-align: left;
   text-transform: uppercase;
   width: 100%;
 `

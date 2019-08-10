@@ -54,17 +54,17 @@ const DestinationText = styled.div`
 const TrainsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 0 0 0.5rem 0.5rem;
+  justify-content: space-around;
+  padding: 0.5rem 0;
   text-align: left;
 
   .trainMinuteText {
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 500;
   }
 
   .trainCarText {
     font-size: 0.75rem;
-    padding-right: 0.25rem;
   }
 `
 

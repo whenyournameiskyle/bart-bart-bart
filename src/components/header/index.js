@@ -48,7 +48,7 @@ const HeaderContainer = styled.div`
   font-weight: 500;
   justify-content: center;
   margin: 0 auto;
-  padding: 0.5rem 2rem;
+  padding: 1rem 2rem;
   position: relative;
 `
 
