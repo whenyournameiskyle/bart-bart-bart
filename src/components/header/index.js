@@ -1,12 +1,11 @@
 import React from 'react'
-import { bool, func, string } from 'prop-types'
+import { bool, func } from 'prop-types'
 import styled from '@emotion/styled'
 
 export default class Header extends React.Component {
   static propTypes = {
     onClick: func,
     showBackButton: bool,
-    text: string,
   }
 
   render() {
@@ -14,7 +13,6 @@ export default class Header extends React.Component {
       children,
       onClick,
       showBackButton,
-      text,
     } = this.props
     
     let time = new Date()
@@ -55,9 +53,9 @@ const HeaderContainer = styled.div`
 `
 
 const BackButton = styled.button`
-  background-color: #111;
+  background-color: #222;
   border: none;
-  color: #fff;
+  color: #ddd;
   font-size: 1.6rem;
   font-weight: 300;
   left: 0;

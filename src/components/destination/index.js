@@ -2,8 +2,6 @@ import React from 'react'
 import { object } from 'prop-types'
 import styled from '@emotion/styled'
 
-import '../../style.css'
-
 export default class Destination extends React.Component {
   static propTypes = {
     destination: object,

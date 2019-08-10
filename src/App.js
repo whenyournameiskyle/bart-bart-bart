@@ -1,46 +1,55 @@
 import React from 'react'
+import queryString from 'query-string'
 import styled from '@emotion/styled'
 
 import Station from './components/station'
 import StationList from './components/station-list'
-import Header from './components/header'
 
 export default class App extends React.Component {
   state = {
-    stationList: [],
     selectedStation: null,
-    loading: false,
-    error: null
+    stationList: [],
   }
 
-  fetchStations() {
+  fetchStationList() {
     this.setState({loading : true}, () => {
       return fetch('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y')
       .then((response) => response.json())
       .then((responseJson) => {
-        this.setState({stationList : responseJson.root.stations.station, loading: false})
+        this.setState({
+          stationList: responseJson.root.stations.station
+        })
       })
-      .catch((error) => {
-        this.setState({error : error})
-      })
+      .catch((error) => error)
     })
   }
 
-  handleStationClick = (stationAbbr) => {
-    this.setState({selectedStation : stationAbbr})
+  handleClickOnSpecificStation = (stationAbbr) => {
+    const params = new URLSearchParams('')
+    params.append('selectedStation', stationAbbr)
+    this.setState({selectedStation: stationAbbr})
+    window.history.replaceState({}, null, `s?${params.toString()}`)
   }
 
   toStationList = () => {
-    this.setState({selectedStation : null})
+    this.setState({selectedStation: null})
+    window.history.replaceState({}, '', window.location.origin)
+    if (!this.state.stationList.length) {
+      this.fetchStationList()
+    }
   }
 
   componentDidMount() {
-    this.fetchStations()
+    const params = queryString.parse(window.location.search) || {}
+    if (params.selectedStation) {
+      this.setState({selectedStation: params.selectedStation})
+    } else {
+      this.fetchStationList()
+    }
   }
 
   render() {
     const {
-      loading,
       selectedStation,
       stationList,
     } = this.state
@@ -53,7 +62,7 @@ export default class App extends React.Component {
               onBackClick={this.toStationList}
             />
           : <StationList
-              onClick={this.handleStationClick}
+              onClick={this.handleClickOnSpecificStation}
               stationList={stationList}
             />
         }
@@ -63,12 +72,11 @@ export default class App extends React.Component {
 }
 //#4682b4;
 const AppBody = styled.div`
-  background-color: #111;
   color: #ddd;
   font-family: Helvetica, sans-serif;
   font-size: 1.5rem;
-  text-align: center;
   height: 100%;
+  text-align: center;
 
   @media(max-width: 768px) { 
     font-size: 1.6rem;
