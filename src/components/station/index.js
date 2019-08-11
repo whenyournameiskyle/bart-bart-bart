@@ -1,8 +1,10 @@
 import React from 'react'
 import { func, string } from 'prop-types'
+import styled from '@emotion/styled'
 
 import PlatformDirection from '../../components/platform-direction'
 import Header from '../../components/header'
+import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
 
 export default class Station extends React.Component {
   static propTypes = {
@@ -11,12 +13,13 @@ export default class Station extends React.Component {
   }
 
   state = {
+    lastUpdated: '',
+    loading: false,
     stationInfo: {
       name: '',
       northbound: [],
       southbound: []
     },
-    loading: false
   }
 
   fetchStationInfo (stationAbbr) {
@@ -62,6 +65,7 @@ export default class Station extends React.Component {
     }
 
     this.setState(prevState => ({
+      lastUpdated: currentTimeStringFormatter(),
       loading: false,
       stationInfo: {
         ...prevState.stationInfo,
@@ -71,24 +75,15 @@ export default class Station extends React.Component {
   }
 
   componentDidMount () {
-    const {
-      stationAbbr
-    } = this.props
-
+    const { stationAbbr } = this.props
   	this.fetchStationInfo(stationAbbr)
-
-    setTimeout(() => {
-      console.info('updating BART times')
-      this.fetchStationInfo(stationAbbr)
-    }, 60000)
+    setTimeout(() => { this.fetchStationInfo(stationAbbr) }, 60000)
   }
 
   render () {
+    const { onBackClick } = this.props
     const {
-      onBackClick
-    } = this.props
-    
-    const {
+      lastUpdated,
       loading,
       stationInfo
     } = this.state
@@ -109,7 +104,18 @@ export default class Station extends React.Component {
           direction='Southbound'
           destinations={stationInfo.southbound}
         />
+        <TimeText>train times last updated at {lastUpdated}</TimeText>
 	   </div>
     )
   }
 }
+
+
+const TimeText = styled.div`
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+
+  @media(max-width: 368px) { 
+    font-size: 1.4rem;
+  }
+`
