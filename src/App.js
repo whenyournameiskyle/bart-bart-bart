@@ -33,7 +33,7 @@ export default class App extends React.Component {
 
   toStationList = () => {
     this.setState({selectedStation: null})
-    window.history.replaceState({}, '', window.location.origin)
+    window.history.replaceState({}, '', window.location.origin+window.location.pathname)
     if (!this.state.stationList.length) {
       this.fetchStationList()
     }
