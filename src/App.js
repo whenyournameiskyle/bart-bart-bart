@@ -83,4 +83,8 @@ const AppBody = styled.div`
   @media(max-width: 768px) { 
     font-size: 1.6rem;
   }
+
+  @media(max-width: 368px) { 
+    font-size: 1.8rem;
+  }
 `

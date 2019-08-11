@@ -39,7 +39,6 @@ export default class Destination extends React.Component {
 }
 
 const DestinationContainer = styled.div`
-  font-size: 1.15rem;
   letter-spacing: 0.04rem;
   text-transform: uppercase;
   text-align: left;
@@ -48,12 +47,16 @@ const DestinationContainer = styled.div`
 const DestinationText = styled.div`
   background-color: ${({color}) => color || 'slategray'};
   color: #333;
+  font-size: 1.2rem;
   padding: 0.5rem;
+
+  @media(max-width: 368px) { 
+    font-size: 1.6rem;
+  }
 `
 
 const TrainsContainer = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   padding: 0.5rem 0;
   text-align: left;
@@ -65,6 +68,18 @@ const TrainsContainer = styled.div`
 
   .trainCarText {
     font-size: 0.75rem;
+  }
+
+  @media(max-width: 368px) { 
+    flex-direction: column;
+    .trainMinuteText {
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    .trainCarText {
+      font-size: 1.2rem;
+    }
   }
 `
 

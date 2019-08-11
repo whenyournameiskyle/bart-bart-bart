@@ -16,8 +16,16 @@ export default class Header extends React.Component {
     } = this.props
     
     let time = new Date()
-    let hour = time.getHours() 
-    hour = (hour > 12) ? (hour - 12) : (hour === 0 ? (hour + 12) : hour) 
+    let hour = time.getHours()
+    let amOrPm = 'am'
+
+    if (hour > 12) {
+      amOrPm = 'pm'
+      hour = hour - 12
+    } else {
+      hour = hour === 0 ? (hour + 12) : hour
+    }
+
     let minute = time.getMinutes().toString()
     minute = minute.length === 1 ? ('0' + minute) : minute
     time = hour + ':' + minute
@@ -35,7 +43,7 @@ export default class Header extends React.Component {
         }
         <div>
           <div>{children}</div>
-          <TimeText className='TimeText'>{time}</TimeText>
+          <TimeText className='TimeText'>{time}{amOrPm}</TimeText>
         </div>
       </HeaderContainer>
     )
@@ -50,6 +58,14 @@ const HeaderContainer = styled.div`
   margin: 0 auto;
   padding: 1rem 2rem;
   position: relative;
+
+  @media(max-width: 368px) { 
+    padding: 2.5rem;
+
+    .TimeText {
+      font-size: 1.4rem;
+    }
+  }
 `
 
 const BackButton = styled.button`

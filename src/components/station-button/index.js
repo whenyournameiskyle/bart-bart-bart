@@ -45,4 +45,9 @@ const StyledButton = styled.button`
   text-align: left;
   text-transform: uppercase;
   width: 100%;
+
+  @media(max-width: 368px) { 
+    font-size: 1.6rem;
+    height: 8rem;
+  }
 `
