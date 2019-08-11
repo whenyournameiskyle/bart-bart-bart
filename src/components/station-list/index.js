@@ -11,9 +11,15 @@ export default class StationList extends React.Component {
     stationList: array,
   }
 
-  render() {
+  handleOnClick = (stationAbbr) => {
+    const { onClick } = this.props
+    if (onClick) {
+      onClick(stationAbbr)
+    }
+  }
+
+  render () {
     const {
-      onClick,
       stationList,
     } = this.props
     const hasClosestStation = false
@@ -29,18 +35,16 @@ export default class StationList extends React.Component {
           </Subheader>
         }
         {stationList.length 
-          ? stationList.map((station, index) => {
-            return (
+          ? stationList.map((station, index) => (
               <StationButton
                 index={index}
                 key={station.abbr}
-                onClick={onClick}
-                stationAbbr={station.abbr}
+                onClick={() => this.handleOnClick(station.abbr)}
               >
                 {station.name}
               </StationButton>
             )
-          })
+          )
           : <div>Loading...</div>
         }
       </div>

@@ -82,7 +82,7 @@ export default class Station extends React.Component {
   }
 
   render () {
-    const { onBackClick } = this.props
+    const { onBackClick, stationAbbr } = this.props
     const {
       lastUpdated,
       loading,
@@ -95,37 +95,42 @@ export default class Station extends React.Component {
     return (
       <div>
  	  		<Header onClick={onBackClick}>
-          {!stationInfo.name || loading ? 'Loading...' : stationInfo.name}
+          {!stationInfo.name || loading ? ' ' : stationInfo.name}
         </Header>
-  	    <Subheader>
-          Northbound
-        </Subheader>
-        <div>
-          {hasNorthboundInfo &&
-            stationInfo.northbound.map((destination, idx) => {
-            return (
-              <Destination
-                destination={destination}
-                key={idx}
-              />
-            )
-          })}
+        {loading 
+          ? <div>Loading...</div>
+          : <div>
+    	    <Subheader>
+            Northbound
+          </Subheader>
+          <div>
+            {hasNorthboundInfo &&
+              stationInfo.northbound.map((destination, idx) => {
+              return (
+                <Destination
+                  destination={destination}
+                  key={idx}
+                />
+              )
+            })}
+          </div>
+          <Subheader>
+            Southbound
+          </Subheader>
+          <div>
+            {hasSouthboundInfo &&
+              stationInfo.southbound.map((destination, idx) => {
+              return (
+                <Destination
+                  destination={destination}
+                  key={idx}
+                />
+              )
+            })}
+          </div>
+          <TimeText>train times last updated at {lastUpdated}</TimeText>
         </div>
-        <Subheader>
-          Southbound
-        </Subheader>
-        <div>
-          {hasSouthboundInfo &&
-            stationInfo.southbound.map((destination, idx) => {
-            return (
-              <Destination
-                destination={destination}
-                key={idx}
-              />
-            )
-          })}
-        </div>
-        <TimeText>train times last updated at {lastUpdated}</TimeText>
+      }
 	   </div>
     )
   }

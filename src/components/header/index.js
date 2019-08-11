@@ -1,5 +1,5 @@
 import React from 'react'
-import { bool, func } from 'prop-types'
+import { func } from 'prop-types'
 import styled from '@emotion/styled'
 
 import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'

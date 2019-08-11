@@ -9,22 +9,18 @@ export default class StationButton extends React.Component {
     stationAbbr: string,
   }
 
-  handleStationClick = () => {
-    const { onClick, stationAbbr } = this.props
-    if (onClick) onClick(stationAbbr)
-  }
-
   render() {
     const {
       children,
-      index
+      index, 
+      onClick
     } = this.props
 
     return (
       <StyledButton 
         className='StationButton' 
         index={index}
-        onClick={this.handleStationClick} 
+        onClick={onClick} 
       > 
         {children}
       </StyledButton>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { array, string } from 'prop-types'
 import styled from '@emotion/styled'
 
 
