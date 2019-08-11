@@ -7,19 +7,17 @@ import currentTimeStringFormatter from '../../helpers/current-time-string-format
 export default class Header extends React.Component {
   static propTypes = {
     onClick: func,
-    showBackButton: bool,
   }
 
   render() {
     const {
       children,
       onClick,
-      showBackButton,
     } = this.props
     
     return (
       <HeaderContainer className='HeaderContainer'>
-        {showBackButton 
+        {onClick 
           ? <BackButton 
               className='BackButton' 
               onClick={onClick}

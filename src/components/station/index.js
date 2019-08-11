@@ -2,8 +2,9 @@ import React from 'react'
 import { func, string } from 'prop-types'
 import styled from '@emotion/styled'
 
-import PlatformDirection from '../../components/platform-direction'
+import Destination from '../../components/destination'
 import Header from '../../components/header'
+import Subheader from '../../components/subheader'
 import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
 
 export default class Station extends React.Component {
@@ -88,22 +89,42 @@ export default class Station extends React.Component {
       stationInfo
     } = this.state
 
+    const hasNorthboundInfo = stationInfo.northbound.length
+    const hasSouthboundInfo = stationInfo.southbound.length
+
     return (
       <div>
- 	  		<Header
-	       showBackButton
-	       onClick={onBackClick}
-      	>
+ 	  		<Header onClick={onBackClick}>
           {!stationInfo.name || loading ? 'Loading...' : stationInfo.name}
         </Header>
-  	    <PlatformDirection
-  			  direction='Northbound'
-          destinations={stationInfo.northbound}
-  			/>
-        <PlatformDirection
-          direction='Southbound'
-          destinations={stationInfo.southbound}
-        />
+  	    <Subheader>
+          Northbound
+        </Subheader>
+        <div>
+          {hasNorthboundInfo &&
+            stationInfo.northbound.map((destination, idx) => {
+            return (
+              <Destination
+                destination={destination}
+                key={idx}
+              />
+            )
+          })}
+        </div>
+        <Subheader>
+          Southbound
+        </Subheader>
+        <div>
+          {hasSouthboundInfo &&
+            stationInfo.southbound.map((destination, idx) => {
+            return (
+              <Destination
+                destination={destination}
+                key={idx}
+              />
+            )
+          })}
+        </div>
         <TimeText>train times last updated at {lastUpdated}</TimeText>
 	   </div>
     )
@@ -112,10 +133,10 @@ export default class Station extends React.Component {
 
 
 const TimeText = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   margin-top: 0.75rem;
 
   @media(max-width: 368px) { 
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 `

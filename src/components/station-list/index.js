@@ -1,8 +1,9 @@
 import React from 'react'
 import { array, func } from 'prop-types'
 
-import StationButton from '../../components/station-button'
 import Header from '../../components/header'
+import StationButton from '../../components/station-button'
+import Subheader from '../../components/subheader'
 
 export default class StationList extends React.Component {
   static propTypes = {
@@ -15,12 +16,18 @@ export default class StationList extends React.Component {
       onClick,
       stationList,
     } = this.props
+    const hasClosestStation = false
 
     return (
       <div className='StationListContainer'>
         <Header>
-          Select BART Station
+          Pick a BART Station
         </Header>
+        {hasClosestStation &&
+          <Subheader>
+            Closest Station
+          </Subheader>
+        }
         {stationList.length 
           ? stationList.map((station, index) => {
             return (
