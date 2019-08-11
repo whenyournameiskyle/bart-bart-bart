@@ -28,7 +28,7 @@ export default class App extends React.Component {
     const params = new URLSearchParams('')
     params.append('selectedStation', stationAbbr)
     this.setState({selectedStation: stationAbbr})
-    window.history.replaceState({}, null, `s?${params.toString()}`)
+    window.history.replaceState({}, null, `index?${params.toString()}`)
   }
 
   toStationList = () => {
