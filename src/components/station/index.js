@@ -32,7 +32,7 @@ export default class Station extends React.Component {
           this.handleStationInformation(responseJson.root.station[0])
         })
         .catch((error) => {
-          this.setState({error : error})
+          this.setState({ error : error })
         })
       }
     })
@@ -82,7 +82,7 @@ export default class Station extends React.Component {
   }
 
   render () {
-    const { onBackClick, stationAbbr } = this.props
+    const { onBackClick } = this.props
     const {
       lastUpdated,
       loading,
