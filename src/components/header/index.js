@@ -4,36 +4,23 @@ import styled from '@emotion/styled'
 
 import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
 
-export default class Header extends React.Component {
-  static propTypes = {
-    onClick: func,
-  }
-
-  render() {
-    const {
-      children,
-      onClick,
-    } = this.props
-    
-    return (
-      <HeaderContainer className='HeaderContainer'>
-        {onClick 
-          ? <BackButton 
-              className='BackButton' 
-              onClick={onClick}
-            >
-              ←
-            </BackButton>
-          : null
-        }
-        <div>
-          <div>{children}</div>
-          <TimeText className='TimeText'>{currentTimeStringFormatter()}</TimeText>
-        </div>
-      </HeaderContainer>
-    )
-  }
-}
+const Header = ({ children, onClick }) => (
+  <HeaderContainer className='HeaderContainer'>
+    {onClick 
+      ? <BackButton 
+          className='BackButton' 
+          onClick={onClick}
+        >
+          ←
+        </BackButton>
+      : null
+    }
+    <div>
+      <div>{children}</div>
+      <TimeText className='TimeText'>{currentTimeStringFormatter()}</TimeText>
+    </div>
+  </HeaderContainer>
+)
 
 const HeaderContainer = styled.div`
   align-items: center;
@@ -67,3 +54,9 @@ const TimeText = styled.div`
     font-size: 1.4rem;
   }
 `
+
+Header.propTypes = {
+  onClick: func,
+}
+
+export default Header

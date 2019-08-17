@@ -1,16 +1,11 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-
-export default class Subheader extends React.Component {
-  render () {
-    return (
-      <SubheaderStyle className='Subheader'>
-        {this.props.children}
-      </SubheaderStyle>
-    )
-  }
-}
+const Subheader = ({ children }) => (
+  <SubheaderStyle className='Subheader'>
+    {children}
+  </SubheaderStyle>
+)
 
 const SubheaderStyle = styled.div`
   background-color: slategray;
@@ -21,3 +16,5 @@ const SubheaderStyle = styled.div`
     padding: 1rem 0;
   }
 `
+
+export default Subheader

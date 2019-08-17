@@ -2,31 +2,15 @@ import React from 'react'
 import { func, number, string } from 'prop-types'
 import styled from '@emotion/styled'
 
-export default class StationButton extends React.Component {
-  static propTypes = {
-    index: number,
-    onClick: func,
-    stationAbbr: string,
-  }
-
-  render() {
-    const {
-      children,
-      index, 
-      onClick
-    } = this.props
-
-    return (
-      <StyledButton 
-        className='StationButton' 
-        index={index}
-        onClick={onClick} 
-      > 
-        {children}
-      </StyledButton>
-    )
-  }
-}
+const StationButton = ({ children, index, onClick }) => (
+  <StyledButton 
+    className='StationButton' 
+    index={index}
+    onClick={onClick} 
+  > 
+    {children}
+  </StyledButton>
+)
 
 const StyledButton = styled.button`
   background-color: ${({index}) => index % 2 === 0 ? '#666' : '#888'};
@@ -47,3 +31,11 @@ const StyledButton = styled.button`
     height: 8rem;
   }
 `
+
+StationButton.propTypes = {
+  index: number,
+  onClick: func,
+  stationAbbr: string,
+}
+
+export default StationButton

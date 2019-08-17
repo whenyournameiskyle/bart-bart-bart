@@ -2,41 +2,29 @@ import React from 'react'
 import { object } from 'prop-types'
 import styled from '@emotion/styled'
 
-export default class Destination extends React.Component {
-  static propTypes = {
-    destination: object,
-  }
-
-  render() {
-    const {
-      destination
-    } = this.props
-
-    return (
-      <DestinationContainer className='DestinationContainer'>
-        <DestinationText color={destination.trains[0].color}>
-          {destination.name}
-        </DestinationText>
-        <TrainsContainer className='TrainsContainer'>
-          {destination.trains && destination.trains.map((train, idx) => {
-            return ( 
-              <div key={idx}>
-                <span className='trainMinuteText'>
-                  {train.minutesUntil === 'Now' 
-                    ? train.minutesUntil 
-                    : `${train.minutesUntil} min`
-                  }
-                </span>
-                <span className='trainCarText'> ({train.cars} car)</span>
-              </div>
-            )
-            })
-          }
-        </TrainsContainer>
-      </DestinationContainer>
-    )
-  }
-}
+const Destination = ({ destination }) => (
+  <DestinationContainer className='DestinationContainer'>
+    <DestinationText color={destination.trains[0].color}>
+      {destination.name}
+    </DestinationText>
+    <TrainsContainer className='TrainsContainer'>
+      {destination.trains && destination.trains.map((train, idx) => {
+        return ( 
+          <div key={idx}>
+            <span className='trainMinuteText'>
+              {train.minutesUntil === 'Now' 
+                ? train.minutesUntil 
+                : `${train.minutesUntil} min`
+              }
+            </span>
+            <span className='trainCarText'> ({train.cars} car)</span>
+          </div>
+        )
+        })
+      }
+    </TrainsContainer>
+  </DestinationContainer>
+)
 
 const DestinationContainer = styled.div`
   letter-spacing: 0.04rem;
@@ -84,3 +72,9 @@ const TrainsContainer = styled.div`
     }
   }
 `
+
+Destination.propTypes = {
+  destination: object,
+}
+
+export default Destination
