@@ -11,37 +11,39 @@ const Station = ({ onBackClick, stationAbbr }) => {
   const [lastUpdated, setLastUpdated] = useState('')
   const [loading, setLoading] = useState(true)
   const [stationName, setStationName] = useState('')
-  const [northbound, setNorthbound] = useState([])
-  const [southbound, setSouthbound] = useState([])
+  const [platforms, setPlatforms] = useState({})
 
   const handleStationInformation = ({ etd: destinations, name}) => {
     setStationName(name)
-    const northbound = []
-    const southbound = []
-    
+    const platformObject = {}
+
     for (var i = 0; i < destinations.length; i++) {
       let upcomingTrains = []
-      for (var j = 0; j < destinations[i].estimate.length; j++) {
+      const destination = destinations[i]
+      for (var j = 0; j < destination.estimate.length; j++) {
+        const train = destination.estimate[j]
         upcomingTrains.push({
-          cars: destinations[i].estimate[j].length,
-          color: destinations[i].estimate[j].color.toLowerCase(),
-          minutesUntil: destinations[i].estimate[j].minutes === 'Leaving' ? 'Now' : destinations[i].estimate[j].minutes-1,
+          cars: train.length,
+          color: train.color.toLowerCase(),
+          minutesUntil: train.minutes === 'Leaving' ? 'Now' : train.minutes-1,
         })
       }
 
       const estObj = {
-        name: destinations[i].destination,
+        destinationName: destination.destination,
         trains: upcomingTrains
       }
 
-      destinations[i].estimate[0].direction === 'North' 
-        ? northbound.push(estObj) 
-        : southbound.push(estObj)
+      const destinationPlatform = destination.estimate[0].platform
+      if (platformObject[destinationPlatform] && platformObject[destinationPlatform].push) {
+        platformObject[destinationPlatform].push(estObj)
+      } else {
+        platformObject[destinationPlatform] = [estObj]
+      }
     }
 
     setLastUpdated(currentTimeStringFormatter())
-    setNorthbound(northbound)
-    setSouthbound(southbound)
+    setPlatforms(platformObject)
     setLoading(false)
   }
 
@@ -62,44 +64,27 @@ const Station = ({ onBackClick, stationAbbr }) => {
     return () => clearInterval(interval)
   }, [stationAbbr])
 
-  const hasNorthboundInfo = northbound.length || null
-  const hasSouthboundInfo = southbound.length || null
+  const hasPlatforms = !!platforms['1']
 
   return (
     <div>
 	  		<Header onClick={onBackClick}>
         {!stationName || loading ? ' ' : stationName}
       </Header>
-      {loading 
+      {loading
         ? <div>Loading...</div>
         : <div>
-  	    <Subheader>
-          Northbound
-        </Subheader>
-        <div>
-          {hasNorthboundInfo &&
-            northbound.map((destination, idx) => (
-              <Destination
-                destination={destination}
-                key={idx}
-              />
-            )
-          )}
-        </div>
-        <Subheader>
-          Southbound
-        </Subheader>
-        <div>
-          {hasSouthboundInfo &&
-            southbound.map((destination, idx) => (
-              <Destination
-                destination={destination}
-                key={idx}
-              />
-            )
-          )}
-        </div>
-        {lastUpdated && 
+        {hasPlatforms && Object.entries(platforms).map(([platformNumber, destinations]) => (
+          <div key={platformNumber}>
+            <Subheader>
+              Platform {platformNumber}
+            </Subheader>
+            {destinations.length && destinations.map(destination =>
+              <Destination name={destination.destinationName} trains={destination.trains} />
+            )}
+          </div>
+        ))}
+        {lastUpdated &&
           <TimeText>train times last updated at {lastUpdated}</TimeText>
         }
       </div>
@@ -112,7 +97,7 @@ const TimeText = styled.div`
   font-size: 0.75rem;
   margin-top: 0.75rem;
 
-  @media(max-width: 368px) { 
+  @media(max-width: 368px) {
     font-size: 1.2rem;
   }
 `
