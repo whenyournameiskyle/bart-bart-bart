@@ -2,11 +2,11 @@ import React, { useEffect, useState }  from 'react'
 import queryString from 'query-string'
 import styled from '@emotion/styled'
 
-import Station from './components/station'
-import StationList from './components/station-list'
+import Station from '../components/station'
+import StationList from '../components/station-list'
 
 const App = () => {
-  const [selectedStation, setSelectedStation] = useState(queryString.parse(window.location.search).selectedStation)
+  const [selectedStation, setSelectedStation] = useState('')
   const [stationList, setStationList] = useState([])
 
   const fetchStationList = () => {
@@ -31,8 +31,9 @@ const App = () => {
   }
 
   useEffect(() => {
+    debugger
     const params = queryString.parse(window.location.search) || {}
-    if (selectedStation !== params.selectedStation) {
+    if (selectedStation && (selectedStation !== params.selectedStation)) {
       setSelectedStation(selectedStation)
     } else {
       fetchStationList()
@@ -40,18 +41,31 @@ const App = () => {
   }, [selectedStation])
 
   return (
-    <AppBody>
-      {selectedStation
-        ? <Station
-            stationAbbr={selectedStation}
-            onBackClick={backToStationList}
-          />
-        : <StationList
-            onClick={handleClickOnSpecificStation}
-            stationList={stationList}
-          />
-      }
-    </AppBody>
+    <div>
+      <style jsx>{`
+        :global(body) {
+          background-color: #333;
+          color: #ddd;
+          font-family: Open Sans, Avenir Next, Avenir, Helvetica, sans-serif;
+          height: 100%;
+          margin: 0;
+          text-align: center;
+        }
+      `}
+      </style>
+      <AppBody>
+        {selectedStation
+          ? <Station
+              stationAbbr={selectedStation}
+              onBackClick={backToStationList}
+            />
+          : <StationList
+              onClick={handleClickOnSpecificStation}
+              stationList={stationList}
+            />
+        }
+      </AppBody>
+    </div>
   )
 }
 
@@ -65,11 +79,11 @@ const AppBody = styled.div`
   max-width: 50rem;
   text-align: center;
 
-  @media(max-width: 768px) { 
+  @media(max-width: 768px) {
     font-size: 1.6rem;
   }
 
-  @media(max-width: 368px) { 
+  @media(max-width: 368px) {
     font-size: 1.8rem;
   }
 `
