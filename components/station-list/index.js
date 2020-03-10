@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { array, func } from 'prop-types'
 import getDistance from 'geolib/es/getDistance'
 import styled from '@emotion/styled'
+import Link from 'next/link'
 
 import Header from '../../components/header'
-import StationButton from '../../components/station-button'
 import Subheader from '../../components/subheader'
 
-const StationList = ({ onClick, stationList }) => {
-  const [closestStation, setClosestStation] = useState(null)
-  
-  const handleGeolocationSuccess = ({latitude, longitude}) => {    
+const StationList = ({ stationList = [] }) => {
+  const [closestStation, setClosestStation] = useState({})
+
+  const handleGeolocationSuccess = ({latitude, longitude}) => {
     let currentClosestStation = stationList[0]
+    if (!currentClosestStation.gtfs_latitude) return
     let closestDistance = getDistance({latitude: parseFloat(currentClosestStation.gtfs_latitude), longitude: parseFloat(currentClosestStation.gtfs_longitude)}, {latitude, longitude})
-    
+
     for (let i = 1; i < stationList.length; i++) {
       let newDistance = getDistance({latitude: parseFloat(stationList[i].gtfs_latitude), longitude: parseFloat(stationList[i].gtfs_longitude)}, {latitude, longitude})
       if (newDistance < closestDistance) {
@@ -24,14 +25,10 @@ const StationList = ({ onClick, stationList }) => {
     setClosestStation(currentClosestStation)
   }
 
-  const handleOnClick = (stationAbbr) => {
-    if (onClick) onClick(stationAbbr)
-  }
-
   useEffect(() => {
     const getCurrentPosition = () => {
       window.navigator.geolocation.getCurrentPosition(
-        (position) => handleGeolocationSuccess(position.coords), 
+        (position) => handleGeolocationSuccess(position.coords),
         (err) => err,
         {'timeout': 15000,'maximumAge': 60000}
       )
@@ -50,16 +47,14 @@ const StationList = ({ onClick, stationList }) => {
       <Header>
         Pick a BART Station
       </Header>
-      {closestStation &&
+      {closestStation.name &&
         <ClosestStationContainer>
           <Subheader>
             Closest Station
           </Subheader>
-          <StationButton
-            onClick={() => handleOnClick(closestStation.abbr)}
-          >
-            {closestStation.name}
-          </StationButton>
+          <Link href={`/station?key=${closestStation.abbr}`}>
+            <StyledA><StationLink>{closestStation.name}</StationLink></StyledA>
+          </Link>
         </ClosestStationContainer>
       }
       {closestStation &&
@@ -67,19 +62,17 @@ const StationList = ({ onClick, stationList }) => {
           All Stations
         </Subheader>
       }
-      {stationList.length 
-        ? stationList.map((station, index) => (
-            <StationButton
-              index={index}
-              key={station.abbr}
-              onClick={() => handleOnClick(station.abbr)}
-            >
-              {station.name}
-            </StationButton>
+      <div>
+        {stationList.length
+          ? stationList.map((station, index) => (
+            <Link href={`/station?key=${station.abbr}`} key={index}>
+              <StyledA><StationLink index={index}><StyledText>{station.name}</StyledText></StationLink></StyledA>
+            </Link>
+            )
           )
-        )
-        : <div>Loading...</div>
-      }
+          : <div>Loading...</div>
+        }
+      </div>
     </div>
   )
 }
@@ -88,9 +81,32 @@ const ClosestStationContainer = styled.div`
   padding-bottom: 2rem;
 `
 
+const StyledA = styled.a`
+  text-decoration: none;
+`
+
+const StationLink = styled.div`
+  background-color: ${({index}) => index % 2 === 0 ? '#666' : '#888'};
+  border: none;
+  color: #ddd;
+  cursor: pointer;
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
+  padding: 1rem 0;
+  text-align: left;
+  text-transform: uppercase;
+  width: 100%;
+`
+
+const StyledText = styled.div`
+  margin-left: 0.5rem;
+`
+
 StationList.propTypes = {
-  onClick: func,
-  stationList: array,
+  stationList: array
 }
 
 export default StationList
+

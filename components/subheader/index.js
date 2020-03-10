@@ -12,7 +12,7 @@ const SubheaderStyle = styled.div`
   letter-spacing: 0.04em;
   padding: 0.75rem 0;
 
-  @media(max-width: 368px) { 
+  @media(max-width: 368px) {
     padding: 1rem 0;
   }
 `
