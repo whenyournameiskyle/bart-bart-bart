@@ -32,6 +32,7 @@ class MyDocument extends Document {
 
 
 const AppBody = styled.div`
+  background-color: #333;
   color: #ddd;
   font-family: Helvetica, sans-serif;
   font-size: 1.5rem;
