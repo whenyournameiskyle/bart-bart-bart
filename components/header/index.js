@@ -6,9 +6,9 @@ import currentTimeStringFormatter from '../../helpers/current-time-string-format
 
 const Header = ({ children, onClick }) => (
   <HeaderContainer className='HeaderContainer'>
-    {onClick 
-      ? <BackButton 
-          className='BackButton' 
+    {onClick
+      ? <BackButton
+          className='BackButton'
           onClick={onClick}
         >
           ←
@@ -31,13 +31,13 @@ const HeaderContainer = styled.div`
   padding: 1rem 2rem;
   position: relative;
 
-  @media(max-width: 368px) { 
+  @media(max-width: 368px) {
     padding: 1rem;
   }
 `
 
 const BackButton = styled.button`
-  background-color: #222;
+  background-color: #333;
   border: none;
   color: #ddd;
   font-size: 1.6rem;
@@ -50,7 +50,7 @@ const BackButton = styled.button`
 const TimeText = styled.div`
   font-size: 0.9rem;
 
-  @media(max-width: 368px) { 
+  @media(max-width: 368px) {
     font-size: 1.4rem;
   }
 `

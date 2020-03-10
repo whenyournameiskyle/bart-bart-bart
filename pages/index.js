@@ -31,7 +31,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    debugger
     const params = queryString.parse(window.location.search) || {}
     if (selectedStation && (selectedStation !== params.selectedStation)) {
       setSelectedStation(selectedStation)
