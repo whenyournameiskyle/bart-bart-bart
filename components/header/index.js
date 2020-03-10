@@ -1,23 +1,22 @@
 import React from 'react'
 import { func } from 'prop-types'
 import styled from '@emotion/styled'
+import Link from 'next/link'
 
 import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
 
-const Header = ({ children, onClick }) => (
+const Header = ({ children, shouldShowBack, updatedTime }) => (
   <HeaderContainer className='HeaderContainer'>
-    {onClick
-      ? <BackButton
-          className='BackButton'
-          onClick={onClick}
-        >
-          ←
-        </BackButton>
-      : null
+    {shouldShowBack
+      && <Link href='/'>
+          <BackButton className='BackButton'>
+            ←
+          </BackButton>
+        </Link>
     }
     <div>
       <div>{children}</div>
-      <TimeText className='TimeText'>{currentTimeStringFormatter()}</TimeText>
+      <TimeText className='TimeText'>{updatedTime || currentTimeStringFormatter()}</TimeText>
     </div>
   </HeaderContainer>
 )
@@ -36,10 +35,11 @@ const HeaderContainer = styled.div`
   }
 `
 
-const BackButton = styled.button`
+const BackButton = styled.a`
   background-color: #333;
   border: none;
   color: #ddd;
+  cursor: pointer;
   font-size: 1.6rem;
   font-weight: 300;
   left: 0;

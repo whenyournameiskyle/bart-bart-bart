@@ -1,5 +1,6 @@
-// ./pages/_document.js
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import styled from '@emotion/styled'
+
 class MyDocument extends Document {
   static async getInitialProps (ctx) {
     const initialProps = await Document.getInitialProps(ctx)
@@ -9,16 +10,43 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <style>
-            <link href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap' rel='preload' as='font' type='font/woff2' crossOrigin='anonymous' />
+          <style jsx>{`
+            :global(body) {
+              background-color: #333;
+              color: #ddd;
+              height: 100%;
+              margin: 0;
+              text-align: center;
+            }
+          `}
           </style>
         </Head>
-        <body>
+        <AppBody>
           <Main />
           <NextScript />
-        </body>
+        </AppBody>
       </Html>
     )
   }
 }
+
+
+const AppBody = styled.div`
+  color: #ddd;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.5rem;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 50rem;
+  text-align: center;
+
+  @media(max-width: 768px) {
+    font-size: 1.6rem;
+  }
+
+  @media(max-width: 368px) {
+    font-size: 1.8rem;
+  }
+`
+
 export default MyDocument
