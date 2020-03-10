@@ -10,8 +10,7 @@
     "eslint-plugin-node": "~11.0.0",
     "eslint-plugin-promise": "~4.2.1",
     "eslint-plugin-react": "~7.19.0",
-    "eslint-plugin-standard": "~4.0.1",
-    "gh-pages": "~2.2.0"
+    "eslint-plugin-standard": "~4.0.1"
   },
   "dependencies": {
     "@emotion/core": "~10.0.28",
@@ -25,8 +24,7 @@
   },
   "scripts": {
     "build": "next build",
-    "deploy-gh-pages": "gh-pages -d .next",
-    "deploy-now": "now --prod",
+    "deploy": "now --prod",
     "dev": "next dev",
     "predeploy": "npm run build",
     "start": "next start"
