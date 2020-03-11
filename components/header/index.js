@@ -7,14 +7,14 @@ import currentTimeStringFormatter from '../../helpers/current-time-string-format
 
 const Header = ({ children, shouldShowBack, updatedTime }) => (
   <HeaderContainer className='HeaderContainer'>
-    {shouldShowBack
-      && <Link href='/'>
-          <BackButton className='BackButton'>
-            ←
-          </BackButton>
-        </Link>
-    }
     <div>
+      {shouldShowBack
+        && <Link href='/'>
+            <BackButton className='BackButton'>
+              ←
+            </BackButton>
+          </Link>
+      }
       <div>{children}</div>
       <TimeText className='TimeText'>{updatedTime || currentTimeStringFormatter()}</TimeText>
     </div>
