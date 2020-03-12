@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Head from 'next/head'
+import { array } from 'prop-types'
 import fetch from 'isomorphic-unfetch'
 import StationList from '../components/station-list'
 
@@ -26,6 +27,10 @@ const Index = ({ stationList }) => {
       <StationList stationList={stationList} />
     </div>
   )
+}
+
+Index.propTypes = {
+  stationList: array
 }
 
 Index.getInitialProps = async ctx => {

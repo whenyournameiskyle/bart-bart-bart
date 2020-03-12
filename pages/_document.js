@@ -1,3 +1,4 @@
+import React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import styled from '@emotion/styled'
 
@@ -6,6 +7,7 @@ class MyDocument extends Document {
     const initialProps = await Document.getInitialProps(ctx)
     return { ...initialProps }
   }
+
   render () {
     return (
       <Html>
@@ -14,7 +16,7 @@ class MyDocument extends Document {
             :global(body) {
               background-color: #333;
               color: #ddd;
-              height: 100%;
+              height: 100vh;
               margin: 0;
               text-align: center;
             }
@@ -29,7 +31,6 @@ class MyDocument extends Document {
     )
   }
 }
-
 
 const AppBody = styled.div`
   background-color: #333;

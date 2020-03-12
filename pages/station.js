@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { object, string } from 'prop-types'
 import fetch from 'isomorphic-unfetch'
 
 import SelectedStation from '../components/selected-station'
-import Header from '../components/header'
 import stationPlatformFormatter from '../helpers/station-platform-formatter'
 
 const Station = ({ selectedStation = {}, stationAbbr, stationName }) => {

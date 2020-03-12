@@ -1,5 +1,5 @@
 export default () => {
-	let time = new Date()
+  let time = new Date()
   let hour = time.getHours()
   let amOrPm = 'am'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { func } from 'prop-types'
+import { bool, string } from 'prop-types'
 import styled from '@emotion/styled'
 import Link from 'next/link'
 
@@ -8,18 +8,24 @@ import currentTimeStringFormatter from '../../helpers/current-time-string-format
 const Header = ({ children, shouldShowBack, updatedTime }) => (
   <HeaderContainer className='HeaderContainer'>
     <div>
-      {shouldShowBack
-        && <Link href='/'>
-            <BackButton className='BackButton'>
-              ←
-            </BackButton>
-          </Link>
+      {shouldShowBack &&
+        <Link href='/'>
+          <BackButton className='BackButton'>
+            ←
+          </BackButton>
+        </Link>
       }
       <div>{children}</div>
       <TimeText className='TimeText'>{updatedTime || currentTimeStringFormatter()}</TimeText>
     </div>
   </HeaderContainer>
 )
+
+Header.propTypes = {
+  children: string,
+  shouldShowBack: bool,
+  updatedTime: string
+}
 
 const HeaderContainer = styled.div`
   align-items: center;
@@ -54,9 +60,5 @@ const TimeText = styled.div`
     font-size: 1.4rem;
   }
 `
-
-Header.propTypes = {
-  onClick: func,
-}
 
 export default Header

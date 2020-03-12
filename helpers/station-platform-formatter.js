@@ -2,14 +2,14 @@ export default (destinations) => {
   const formattedStationInfo = {}
   if (destinations.length) {
     for (var i = 0; i < destinations.length; i++) {
-      let upcomingTrains = []
+      const upcomingTrains = []
       const destination = destinations[i]
       for (var j = 0; j < destination.estimate.length; j++) {
         const train = destination.estimate[j]
         upcomingTrains.push({
           cars: train.length,
           color: train.color.toLowerCase(),
-          minutesUntil: (train.minutes === 'Leaving' || train.minutes - 1 < 1) ? 'Now' : train.minutes - 1,
+          minutesUntil: (train.minutes === 'Leaving' || train.minutes - 1 < 1) ? 'Now' : train.minutes - 1
         })
       }
 

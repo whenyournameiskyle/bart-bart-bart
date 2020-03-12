@@ -4,12 +4,12 @@ module.exports = {
     es6: true
   },
   extends: [
-    'standard'
+    'eslint:recommended',
+    'standard',
+    'plugin:jest/recommended',
+    'plugin:react/recommended'
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
-  },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -18,8 +18,13 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
+    'emotion',
+    'jest',
     'react'
   ],
-  rules: {
+  settings: {
+    react: {
+      version: 'detect'
+    }
   }
 }

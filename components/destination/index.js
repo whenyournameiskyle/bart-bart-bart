@@ -1,5 +1,5 @@
 import React from 'react'
-import { object } from 'prop-types'
+import { array, string } from 'prop-types'
 import styled from '@emotion/styled'
 
 const Destination = ({ name, trains }) => (
@@ -20,11 +20,15 @@ const Destination = ({ name, trains }) => (
             <span className='trainCarText'> ({train.cars} car)</span>
           </div>
         )
-        })
-      }
+      })}
     </TrainsContainer>
   </DestinationContainer>
 )
+
+Destination.propTypes = {
+  name: string,
+  trains: array
+}
 
 const DestinationContainer = styled.div`
   letter-spacing: 0.04rem;
@@ -33,7 +37,7 @@ const DestinationContainer = styled.div`
 `
 
 const DestinationText = styled.div`
-  background-color: ${({color}) => color || 'slategray'};
+  background-color: ${({ color }) => color || 'slategray'};
   color: #333;
   font-size: 1.2rem;
   padding: 0.5rem;
@@ -72,9 +76,5 @@ const TrainsContainer = styled.div`
     }
   }
 `
-
-Destination.propTypes = {
-  destination: object,
-}
 
 export default Destination

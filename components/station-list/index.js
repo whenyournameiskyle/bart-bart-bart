@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { array, func } from 'prop-types'
+import { array } from 'prop-types'
 import getDistance from 'geolib/es/getDistance'
 import styled from '@emotion/styled'
 import Link from 'next/link'
@@ -10,13 +10,13 @@ import Subheader from '../../components/subheader'
 const StationList = ({ stationList = [] }) => {
   const [closestStation, setClosestStation] = useState({})
 
-  const handleGeolocationSuccess = ({latitude, longitude}) => {
+  const handleGeolocationSuccess = ({ latitude, longitude }) => {
     let currentClosestStation = stationList[0]
     if (!currentClosestStation.gtfs_latitude) return
-    let closestDistance = getDistance({latitude: parseFloat(currentClosestStation.gtfs_latitude), longitude: parseFloat(currentClosestStation.gtfs_longitude)}, {latitude, longitude})
+    let closestDistance = getDistance({ latitude: parseFloat(currentClosestStation.gtfs_latitude), longitude: parseFloat(currentClosestStation.gtfs_longitude) }, { latitude, longitude })
 
     for (let i = 1; i < stationList.length; i++) {
-      let newDistance = getDistance({latitude: parseFloat(stationList[i].gtfs_latitude), longitude: parseFloat(stationList[i].gtfs_longitude)}, {latitude, longitude})
+      const newDistance = getDistance({ latitude: parseFloat(stationList[i].gtfs_latitude), longitude: parseFloat(stationList[i].gtfs_longitude) }, { latitude, longitude })
       if (newDistance < closestDistance) {
         closestDistance = newDistance
         currentClosestStation = stationList[i]
@@ -30,7 +30,7 @@ const StationList = ({ stationList = [] }) => {
       window.navigator.geolocation.getCurrentPosition(
         (position) => handleGeolocationSuccess(position.coords),
         (err) => err,
-        {'timeout': 15000,'maximumAge': 60000}
+        { timeout: 15000, maximumAge: 60000 }
       )
     }
 
@@ -68,13 +68,16 @@ const StationList = ({ stationList = [] }) => {
             <Link href={`/station?key=${station.abbr}`} key={index}>
               <StyledA><StationLink index={index}><StyledText>{station.name}</StyledText></StationLink></StyledA>
             </Link>
-            )
-          )
+          ))
           : <div>Loading...</div>
         }
       </div>
     </div>
   )
+}
+
+StationList.propTypes = {
+  stationList: array
 }
 
 const ClosestStationContainer = styled.div`
@@ -86,7 +89,7 @@ const StyledA = styled.a`
 `
 
 const StationLink = styled.div`
-  background-color: ${({index}) => index % 2 === 0 ? '#666' : '#888'};
+  background-color: ${({ index }) => index % 2 === 0 ? '#666' : '#888'};
   border: none;
   color: #ddd;
   cursor: pointer;
@@ -104,9 +107,4 @@ const StyledText = styled.div`
   margin-left: 0.5rem;
 `
 
-StationList.propTypes = {
-  stationList: array
-}
-
 export default StationList
-

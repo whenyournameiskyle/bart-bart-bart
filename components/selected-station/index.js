@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { object, string } from 'prop-types'
-import getDistance from 'geolib/es/getDistance'
 import styled from '@emotion/styled'
-import Link from 'next/link'
 
 import Destination from '../../components/destination'
 import Header from '../../components/header'
@@ -15,19 +13,18 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
   const [platforms, setPlatforms] = useState(selectedStation)
   const hasStationInformation = !!platforms['1']
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchStationInfo = () => {
       if (stationAbbr) {
         fetch('https://api.bart.gov/api/etd.aspx?cmd=etd&orig=' + stationAbbr + '&key=MW9S-E7SL-26DU-VV8V&json=y')
-        .then((response) => response.json())
-        .then((data) => {
-          const { etd: destinations, name } = data.root.station[0]
-          const formattedStationInfo = stationPlatformFormatter(destinations)
-          setPlatforms(formattedStationInfo)
-          setLastUpdated(currentTimeStringFormatter())
-          return
-        })
-        .catch((error) => console.error(error))
+          .then((response) => response.json())
+          .then((data) => {
+            const { etd: destinations } = data.root.station[0]
+            const formattedStationInfo = stationPlatformFormatter(destinations)
+            setPlatforms(formattedStationInfo)
+            setLastUpdated(currentTimeStringFormatter())
+          })
+          .catch((error) => console.error(error))
       }
     }
     const interval = setInterval(() => fetchStationInfo(), 60000)
@@ -36,14 +33,14 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
 
   return (
     <div>
-      <Header shouldShowBack={true} updatedTime={lastUpdated}>
+      <Header shouldShowBack updatedTime={lastUpdated}>
         {stationName && stationName}
       </Header>
       <div>
         {hasStationInformation && Object.entries(platforms).map(([platformNumber, destinations]) => (
           <div key={platformNumber}>
             <Subheader>
-              Platform {platformNumber}
+              {`Platform ${platformNumber}`}
             </Subheader>
             {destinations.length && destinations.map(destination =>
               <Destination key={destination.destinationName} name={destination.destinationName} trains={destination.trains} />
@@ -71,4 +68,3 @@ const TimeText = styled.div`
 `
 
 export default SelectedStation
-

@@ -1,4 +1,5 @@
 import React from 'react'
+import { string } from 'prop-types'
 import styled from '@emotion/styled'
 
 const Subheader = ({ children }) => (
@@ -6,6 +7,10 @@ const Subheader = ({ children }) => (
     {children}
   </SubheaderStyle>
 )
+
+Subheader.propTypes = {
+  children: string
+}
 
 const SubheaderStyle = styled.div`
   background-color: slategray;
