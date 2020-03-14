@@ -28,14 +28,14 @@ const StationList = ({ stationList = [] }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
-      const currentRecentStations = localStorage.getItem('recentStations') || null
+      const currentRecentStations = window.localStorage.getItem('recentStations') || null
       if (currentRecentStations) {
         setRecentStations(currentRecentStations.split(','))
       }
     }
 
     const getCurrentPosition = () => {
-      if(typeof window !== 'undefined') {
+      if (typeof window !== 'undefined') {
         window.navigator.geolocation.getCurrentPosition(
           (position) => handleGeolocationSuccess(position.coords),
           (err) => err,
@@ -81,7 +81,8 @@ const StationList = ({ stationList = [] }) => {
                 </Link>
               )
             }
-          )}
+            )
+          }
         </TopStationListContainer>
       }
       {(closestStation || recentStations) &&

@@ -14,8 +14,8 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
   const hasStationInformation = !!platforms['1']
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const currentRecentStations = localStorage.getItem('recentStations') && localStorage.getItem('recentStations').split(',') || []
+    if (typeof window !== 'undefined' && window.localStorage && window.localStorage.getItem('recentStations')) {
+      const currentRecentStations = window.localStorage.getItem('recentStations').split(',')
 
       if (currentRecentStations.includes(`${stationAbbr}:${stationName}`)) {
         currentRecentStations.splice(currentRecentStations.indexOf(`${stationAbbr}:${stationName}`), 1)
@@ -27,7 +27,7 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
         currentRecentStations.pop()
       }
 
-      localStorage.setItem('recentStations', currentRecentStations.toString())
+      window.localStorage.setItem('recentStations', currentRecentStations.toString())
     }
 
     const fetchStationInfo = () => {
