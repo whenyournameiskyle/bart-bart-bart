@@ -9,6 +9,7 @@ import Subheader from '../../components/subheader'
 
 const StationList = ({ stationList = [] }) => {
   const [closestStation, setClosestStation] = useState({})
+  const [recentStations, setRecentStations] = useState(null)
 
   const handleGeolocationSuccess = ({ latitude, longitude }) => {
     let currentClosestStation = stationList[0]
@@ -26,12 +27,21 @@ const StationList = ({ stationList = [] }) => {
   }
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const currentRecentStations = localStorage.getItem('recentStations') || null
+      if (currentRecentStations) {
+        setRecentStations(currentRecentStations.split(','))
+      }
+    }
+
     const getCurrentPosition = () => {
-      window.navigator.geolocation.getCurrentPosition(
-        (position) => handleGeolocationSuccess(position.coords),
-        (err) => err,
-        { timeout: 15000, maximumAge: 60000 }
-      )
+      if(typeof window !== 'undefined') {
+        window.navigator.geolocation.getCurrentPosition(
+          (position) => handleGeolocationSuccess(position.coords),
+          (err) => err,
+          { timeout: 15000, maximumAge: 60000 }
+        )
+      }
     }
 
     if (!closestStation && stationList.length && 'geolocation' in window.navigator) {
@@ -40,7 +50,7 @@ const StationList = ({ stationList = [] }) => {
 
     const interval = setInterval(() => getCurrentPosition(), 300000)
     return () => clearInterval(interval)
-  })
+  }, [])
 
   return (
     <div className='StationListContainer'>
@@ -48,16 +58,33 @@ const StationList = ({ stationList = [] }) => {
         Pick a BART Station
       </Header>
       {closestStation.name &&
-        <ClosestStationContainer>
+        <TopStationListContainer>
           <Subheader>
             Closest Station
           </Subheader>
           <Link href={`/station?key=${closestStation.abbr}`}>
             <StyledA><StationLink>{closestStation.name}</StationLink></StyledA>
           </Link>
-        </ClosestStationContainer>
+        </TopStationListContainer>
       }
-      {closestStation &&
+      {recentStations &&
+        <TopStationListContainer>
+          <Subheader>
+            Recent Stations
+          </Subheader>
+          {recentStations.length &&
+            recentStations.map((station, index) => {
+              const stationInfoArray = station.split(':')
+              return (
+                <Link href={`/station?key=${stationInfoArray[0]}`} key={index}>
+                  <StyledA><StationLink index={index}><StyledText>{stationInfoArray[1]}</StyledText></StationLink></StyledA>
+                </Link>
+              )
+            }
+          )}
+        </TopStationListContainer>
+      }
+      {(closestStation || recentStations) &&
         <Subheader>
           All Stations
         </Subheader>
@@ -80,7 +107,7 @@ StationList.propTypes = {
   stationList: array
 }
 
-const ClosestStationContainer = styled.div`
+const TopStationListContainer = styled.div`
   padding-bottom: 2rem;
 `
 

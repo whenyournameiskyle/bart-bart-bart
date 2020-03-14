@@ -11,18 +11,17 @@ class MyDocument extends Document {
   render () {
     return (
       <Html>
-        <Head>
-          <style jsx>{`
-            :global(body) {
-              background-color: #333;
-              color: #ddd;
-              height: 100vh;
-              margin: 0;
-              text-align: center;
-            }
-          `}
-          </style>
-        </Head>
+        <style jsx>{`
+          :global(body) {
+            background-color: #333;
+            color: #ddd;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+          }
+        `}
+        </style>
+        <Head />
         <AppBody>
           <Main />
           <NextScript />

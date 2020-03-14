@@ -14,6 +14,22 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
   const hasStationInformation = !!platforms['1']
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const currentRecentStations = localStorage.getItem('recentStations') && localStorage.getItem('recentStations').split(',') || []
+
+      if (currentRecentStations.includes(`${stationAbbr}:${stationName}`)) {
+        currentRecentStations.splice(currentRecentStations.indexOf(`${stationAbbr}:${stationName}`), 1)
+      }
+
+      currentRecentStations.unshift(`${stationAbbr}:${stationName}`)
+
+      if (currentRecentStations.length > 3) {
+        currentRecentStations.pop()
+      }
+
+      localStorage.setItem('recentStations', currentRecentStations.toString())
+    }
+
     const fetchStationInfo = () => {
       if (stationAbbr) {
         fetch('https://api.bart.gov/api/etd.aspx?cmd=etd&orig=' + stationAbbr + '&key=MW9S-E7SL-26DU-VV8V&json=y')
