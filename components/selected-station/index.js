@@ -14,8 +14,14 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
   const hasStationInformation = !!platforms['1']
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage && window.localStorage.getItem('recentStations')) {
-      const currentRecentStations = window.localStorage.getItem('recentStations').split(',')
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const hasRecentStations = window.localStorage.getItem('recentStations')
+
+      if (!hasRecentStations) {
+        return window.localStorage.setItem('recentStations', `${stationAbbr}:${stationName}`)
+      }
+
+      const currentRecentStations = hasRecentStations.split(',')
 
       if (currentRecentStations.includes(`${stationAbbr}:${stationName}`)) {
         currentRecentStations.splice(currentRecentStations.indexOf(`${stationAbbr}:${stationName}`), 1)
