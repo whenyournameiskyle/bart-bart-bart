@@ -36,6 +36,10 @@ Index.propTypes = {
 Index.getInitialProps = async ctx => {
   const response = await fetch('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y')
   const data = await response.json()
+
+  const alertResponse = await fetch('https://api.bart.gov/api/bsa.aspx?cmd=bsa&key=MW9S-E7SL-26DU-VV8V&json=y')
+  const alertResponseData = await alertResponse.json()
+
   return { stationList: data.root.stations.station }
 }
 
