@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { array } from 'prop-types'
-import getDistance from 'geolib/es/getDistance'
-import styled from '@emotion/styled'
+import { useEffect, useState } from 'react'
+import { getDistance } from 'geolib'
 import Link from 'next/link'
 
-import Header from '../../components/header'
-import Subheader from '../../components/subheader'
+import { Header } from '../header'
+import { Subheader } from '../subheader'
 
-const StationList = ({ stationList = [] }) => {
+export const StationList = ({ stationList = [] }) => {
   const [closestStation, setClosestStation] = useState({})
   const [recentStations, setRecentStations] = useState(null)
 
@@ -53,86 +51,54 @@ const StationList = ({ stationList = [] }) => {
   }, [])
 
   return (
-    <div className='StationListContainer'>
+    <div>
       <Header>
         Pick a BART Station
       </Header>
       {closestStation.name &&
-        <TopStationListContainer>
+        <div>
           <Subheader>
             Closest Station
           </Subheader>
           <Link href={`/station?key=${closestStation.abbr}`}>
-            <StyledA><StationLink>{closestStation.name}</StationLink></StyledA>
+            <a><div>{closestStation.name}</div></a>
           </Link>
-        </TopStationListContainer>
-      }
+        </div>}
       {recentStations &&
-        <TopStationListContainer>
+        <ul>
           <Subheader>
             Recent Stations
           </Subheader>
           {recentStations.length &&
             recentStations.map((station, index) => {
               const stationInfoArray = station.split(':')
+              if (stationInfoArray[0] === 'undefined' || stationInfoArray[1] === 'undefined') return null
               return (
-                <Link href={`/station?key=${stationInfoArray[0]}`} key={index}>
-                  <StyledA><StationLink index={index}><StyledText>{stationInfoArray[1]}</StyledText></StationLink></StyledA>
-                </Link>
+                <li key={index}>
+                  <Link href={`/station?key=${stationInfoArray[0]}`} key={index}>
+                    <a><div>{stationInfoArray[1]}</div></a>
+                  </Link>
+                </li>
               )
             }
-            )
-          }
-        </TopStationListContainer>
-      }
-      {(closestStation || recentStations) &&
-        <Subheader>
-          All Stations
-        </Subheader>
-      }
-      <div>
+            )}
+        </ul>}
+      <Subheader>
+        All Stations
+      </Subheader>
+      <ul>
         {stationList.length
           ? stationList.map((station, index) => (
-            <Link href={`/station?key=${station.abbr}`} key={index}>
-              <StyledA><StationLink index={index}><StyledText>{station.name}</StyledText></StationLink></StyledA>
-            </Link>
-          ))
-          : <div>Loading...</div>
-        }
-      </div>
+            <li key={index}>
+              <Link href={`/station?key=${station.abbr}`}>
+                <a>
+                  <div>{station.name}</div>
+                </a>
+              </Link>
+            </li>
+            ))
+          : <div>Loading...</div>}
+      </ul>
     </div>
   )
 }
-
-StationList.propTypes = {
-  stationList: array
-}
-
-const TopStationListContainer = styled.div`
-  padding-bottom: 2rem;
-`
-
-const StyledA = styled.a`
-  text-decoration: none;
-`
-
-const StationLink = styled.div`
-  background-color: ${({ index }) => index % 2 === 0 ? '#666' : '#888'};
-  border: none;
-  color: #ddd;
-  cursor: pointer;
-  font-size: 1.4rem;
-  font-weight: 300;
-  letter-spacing: 0.03em;
-  margin-bottom: 0.5rem;
-  padding: 1rem 0;
-  text-align: left;
-  text-transform: uppercase;
-  width: 100%;
-`
-
-const StyledText = styled.div`
-  margin-left: 0.5rem;
-`
-
-export default StationList

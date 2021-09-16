@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { object, string } from 'prop-types'
-import styled from '@emotion/styled'
+import { useEffect, useState } from 'react'
+import fetch from 'node-fetch'
 
-import Destination from '../../components/destination'
-import Header from '../../components/header'
-import Subheader from '../../components/subheader'
+import { Destination } from '../destination'
+import { Header } from '../header'
+import { Subheader } from '../subheader'
 import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
 import stationPlatformFormatter from '../../helpers/station-platform-formatter'
+import styles from '../../styles/Home.module.css'
 
-const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => {
+export default function SelectedStation ({ selectedStation = {}, stationAbbr, stationName }) {
+  console.log(selectedStation, stationAbbr, stationName)
   const [lastUpdated, setLastUpdated] = useState(currentTimeStringFormatter())
   const [platforms, setPlatforms] = useState(selectedStation)
   const hasStationInformation = !!platforms['1']
@@ -36,17 +37,14 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
       window.localStorage.setItem('recentStations', currentRecentStations.toString())
     }
 
-    const fetchStationInfo = () => {
+    const fetchStationInfo = async () => {
       if (stationAbbr) {
-        fetch('https://api.bart.gov/api/etd.aspx?cmd=etd&orig=' + stationAbbr + '&key=MW9S-E7SL-26DU-VV8V&json=y')
-          .then((response) => response.json())
-          .then((data) => {
-            const { etd: destinations } = data.root.station[0]
-            const formattedStationInfo = stationPlatformFormatter(destinations)
-            setPlatforms(formattedStationInfo)
-            setLastUpdated(currentTimeStringFormatter())
-          })
-          .catch((error) => console.error(error))
+        const response = await fetch(`https://api.bart.gov/api/etd.aspx?cmd=etd&orig=${stationAbbr}&key=MW9S-E7SL-26DU-VV8V&json=y`)
+        const data = await response.json()
+        const { etd: destinations } = data?.root?.station[0]
+        const formattedStationInfo = stationPlatformFormatter(destinations)
+        setPlatforms(formattedStationInfo)
+        setLastUpdated(currentTimeStringFormatter())
       }
     }
     const interval = setInterval(() => fetchStationInfo(), 60000)
@@ -70,23 +68,14 @@ const SelectedStation = ({ selectedStation = {}, stationAbbr, stationName }) => 
           </div>
         ))}
       </div>
-      {lastUpdated && <TimeText>train times last updated at {lastUpdated}</TimeText>}
+      {lastUpdated && <div className={styles.timeText}>train times last updated at {lastUpdated}</div>}
     </div>
   )
 }
 
-SelectedStation.propTypes = {
-  selectedStation: object,
-  stationAbbr: string,
-  stationName: string
+export async function getServerSideProps (context) {
+  console.log('blorp')
+  const response = await fetch('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y')
+  const data = await response.json()
+  return { props: { stationList: data?.root?.stations?.station } }
 }
-
-const TimeText = styled.div`
-  font-size: 0.75rem;
-
-  @media(max-width: 368px) {
-    font-size: 1.4rem;
-  }
-`
-
-export default SelectedStation

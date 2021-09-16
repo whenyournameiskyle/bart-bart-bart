@@ -1,10 +1,10 @@
 export default (destinations) => {
   const formattedStationInfo = {}
   if (destinations.length) {
-    for (var i = 0; i < destinations.length; i++) {
+    for (let i = 0; i < destinations.length; i++) {
       const upcomingTrains = []
       const destination = destinations[i]
-      for (var j = 0; j < destination.estimate.length; j++) {
+      for (let j = 0; j < destination.estimate.length; j++) {
         const train = destination.estimate[j]
         upcomingTrains.push({
           cars: train.length,

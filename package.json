@@ -1,67 +1,19 @@
 {
   "name": "bart-bart-bart",
   "homepage": "https://bartti.me",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "private": true,
-  "devDependencies": {
-    "@babel/cli": "~7.8.4",
-    "@babel/core": "~7.8.7",
-    "@babel/plugin-transform-runtime": "~7.8.3",
-    "@babel/preset-env": "~7.8.7",
-    "@babel/preset-react": "~7.8.3",
-    "babel-eslint": "~10.1.0",
-    "babel-loader": "~8.0.6",
-    "enzyme": "~3.11.0",
-    "enzyme-adapter-react-16": "~1.15.2",
-    "eslint": "~6.8.0",
-    "eslint-config-standard": "~14.1.0",
-    "eslint-plugin-emotion": "~10.0.27",
-    "eslint-plugin-import": "~2.20.1",
-    "eslint-plugin-jest": "~23.8.2",
-    "eslint-plugin-node": "~11.0.0",
-    "eslint-plugin-promise": "~4.2.1",
-    "eslint-plugin-react": "~7.19.0",
-    "eslint-plugin-standard": "~4.0.1",
-    "jest": "~25.1.0"
-  },
   "dependencies": {
-    "@emotion/core": "~10.0.28",
-    "@emotion/styled": "~10.0.27",
-    "geolib": "~3.2.1",
-    "isomorphic-unfetch": "~3.0.0",
-    "next": "~9.3.0",
-    "query-string": "~6.11.1",
-    "react": "~16.13.0",
-    "react-dom": "~16.13.0"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./testConfig.js"
-    ]
+    "geolib": "3.3.1",
+    "next": "11.1.2",
+    "node-fetch": "3.0.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "scripts": {
-    "build": "next build",
-    "deploy": "now --prod",
+    "deploy": "npm run build && vercel --prod",
     "dev": "next dev",
-    "predeploy": "npm run build && npm t",
-    "start": "next start",
-    "test": "jest",
-    "test:watch": "jest — watch",
-    "test:coverage": "jest — coverage"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "build": "next build",
+    "start": "next start"
   }
 }

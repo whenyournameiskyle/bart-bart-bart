@@ -1,64 +1,19 @@
-import React from 'react'
-import { bool, string } from 'prop-types'
-import styled from '@emotion/styled'
 import Link from 'next/link'
 
 import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
+import styles from '../../styles/Home.module.css'
 
-const Header = ({ children, shouldShowBack, updatedTime }) => (
-  <HeaderContainer className='HeaderContainer'>
+export const Header = ({ children, shouldShowBack, updatedTime }) => (
+  <div className={styles.header}>
+    {shouldShowBack &&
+      <Link href='/'>
+        <button className={styles.backButton}>
+          ←
+        </button>
+      </Link>}
     <div>
-      {shouldShowBack &&
-        <Link href='/'>
-          <BackButton className='BackButton'>
-            ←
-          </BackButton>
-        </Link>
-      }
       <div>{children}</div>
-      <TimeText className='TimeText'>{updatedTime || currentTimeStringFormatter()}</TimeText>
+      <div className={styles.timeText}>{updatedTime || currentTimeStringFormatter()}</div>
     </div>
-  </HeaderContainer>
+  </div>
 )
-
-Header.propTypes = {
-  children: string,
-  shouldShowBack: bool,
-  updatedTime: string
-}
-
-const HeaderContainer = styled.div`
-  align-items: center;
-  display: flex;
-  font-weight: 500;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  position: relative;
-
-  @media(max-width: 368px) {
-    padding: 1rem;
-  }
-`
-
-const BackButton = styled.a`
-  background-color: #333;
-  border: none;
-  color: #ddd;
-  cursor: pointer;
-  font-size: 1.6rem;
-  font-weight: 300;
-  left: 0;
-  padding: 0.5rem;
-  position: absolute;
-`
-
-const TimeText = styled.div`
-  font-size: 0.9rem;
-
-  @media(max-width: 368px) {
-    font-size: 1.4rem;
-  }
-`
-
-export default Header

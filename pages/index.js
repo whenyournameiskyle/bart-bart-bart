@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+import fetch from 'node-fetch'
 import Head from 'next/head'
-import { array } from 'prop-types'
-import fetch from 'isomorphic-unfetch'
-import StationList from '../components/station-list'
+import { StationList } from '../components/station-list'
+import styles from '../styles/Home.module.css'
 
-const Index = ({ stationList }) => {
+export default function Home ({ stationList }) {
   useEffect(() => {
     window.dataLayer = window.dataLayer || []
     function gtag () {
@@ -17,26 +17,19 @@ const Index = ({ stationList }) => {
       page_title: window.document.title
     })
   }, [])
-
   return (
-    <div>
+    <div className={styles.container}>
       <Head>
         <title>BART Times</title>
-        <script async src='https://www.googletagmanager.com/gtag/js?id=UA-146149246-1'></script>
+        <script async src='https://www.googletagmanager.com/gtag/js?id=UA-146149246-1' />
       </Head>
       <StationList stationList={stationList} />
     </div>
   )
 }
 
-Index.propTypes = {
-  stationList: array
-}
-
-Index.getInitialProps = async ctx => {
+export async function getServerSideProps (context) {
   const response = await fetch('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y')
   const data = await response.json()
-  return { stationList: data.root.stations.station }
+  return { props: { stationList: data?.root?.stations?.station } }
 }
-
-export default Index
