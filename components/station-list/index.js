@@ -42,7 +42,7 @@ export const StationList = ({ stationList = [] }) => {
       }
     }
 
-    if (!closestStation && stationList.length && 'geolocation' in window.navigator) {
+    if (stationList.length && 'geolocation' in window.navigator) {
       getCurrentPosition()
     }
 
@@ -60,9 +60,11 @@ export const StationList = ({ stationList = [] }) => {
           <Subheader>
             Closest Station
           </Subheader>
-          <Link href={`/station?key=${closestStation.abbr}`}>
-            <a><div>{closestStation.name}</div></a>
-          </Link>
+          <li>
+            <Link href={`/station?key=${closestStation.abbr}`}>
+              <a><div>{closestStation.name}</div></a>
+            </Link>
+          </li>
         </div>}
       {recentStations &&
         <ul>

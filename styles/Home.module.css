@@ -58,24 +58,24 @@
   margin: 0;
 }
 
-.pink {
-  background-color: pink;
+.gray {
+  background-color: #aba682;
 }
 
 .green {
-  background-color: green;
+  background-color: #4db848;
 }
 .blue {
-  background-color: blue;
+  background-color: #00aeef;
 }
 .yellow {
-  background-color: yellow;
+  background-color: #ffe801;
 }
 .red {
-  background-color: red;
+  background-color: #ed1c24;
 }
 .orange {
-  background-color: orange;
+  background-color: #faa61b;
 }
 
 .trainList {
