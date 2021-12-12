@@ -12,41 +12,21 @@ export default function SelectedStation ({ selectedStation = {}, stationAbbr, st
   console.log(selectedStation, stationAbbr, stationName)
   const [lastUpdated, setLastUpdated] = useState(currentTimeStringFormatter())
   const [platforms, setPlatforms] = useState(selectedStation)
-  const hasStationInformation = !!platforms['1']
+  const hasStationInformation = !!platforms[1] || !!platforms[2]
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const hasRecentStations = window.localStorage.getItem('recentStations')
-
-      if (!hasRecentStations) {
-        return window.localStorage.setItem('recentStations', `${stationAbbr}:${stationName}`)
-      }
-
-      const currentRecentStations = hasRecentStations.split(',')
-
-      if (currentRecentStations.includes(`${stationAbbr}:${stationName}`)) {
-        currentRecentStations.splice(currentRecentStations.indexOf(`${stationAbbr}:${stationName}`), 1)
-      }
-
-      currentRecentStations.unshift(`${stationAbbr}:${stationName}`)
-
-      if (currentRecentStations.length > 3) {
-        currentRecentStations.pop()
-      }
-
-      window.localStorage.setItem('recentStations', currentRecentStations.toString())
-    }
-
     const fetchStationInfo = async () => {
       if (stationAbbr) {
         const response = await fetch(`https://api.bart.gov/api/etd.aspx?cmd=etd&orig=${stationAbbr}&key=MW9S-E7SL-26DU-VV8V&json=y`)
         const data = await response.json()
         const { etd: destinations } = data?.root?.station[0]
         const formattedStationInfo = stationPlatformFormatter(destinations)
+        console.log('jello??', formattedStationInfo)
         setPlatforms(formattedStationInfo)
         setLastUpdated(currentTimeStringFormatter())
       }
     }
+    fetchStationInfo()
     const interval = setInterval(() => fetchStationInfo(), 60000)
     return () => clearInterval(interval)
   }, [])

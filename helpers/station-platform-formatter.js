@@ -18,6 +18,7 @@ export default (destinations) => {
         trains: upcomingTrains
       }
 
+      console.log('fuck')
       const destinationPlatform = destination.estimate[0].platform
       if (formattedStationInfo[destinationPlatform] && formattedStationInfo[destinationPlatform].push) {
         formattedStationInfo[destinationPlatform].push(estObj)
