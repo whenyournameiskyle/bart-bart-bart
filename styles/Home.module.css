@@ -14,7 +14,7 @@
   position: relative;
   text-align: center;
 
-  @media(max-width: 368px) {
+  @media (max-width: 368px) {
     padding: 1rem;
   }
 }
@@ -26,7 +26,7 @@
   margin: 1rem 0 0 0;
   padding: 0.75rem 0;
   text-align: center;
-  @media(max-width: 368px) {
+  @media (max-width: 368px) {
     padding: 1rem 0;
   }
 }
@@ -84,7 +84,7 @@
   padding: 0.5rem 0 1rem 0;
   text-align: left;
 
-  @media(max-width: 368px) {
+  @media (max-width: 368px) {
     flex-direction: column;
     padding-left: 0.5rem;
   }
@@ -94,7 +94,7 @@
   font-size: 1.5rem;
   font-weight: 500;
 
-  @media(max-width: 368px) {
+  @media (max-width: 368px) {
     font-size: 1.75rem;
     font-weight: 500;
   }
@@ -103,7 +103,7 @@
 .trainCarText {
   font-size: 1rem;
 
-  @media(max-width: 368px) {
+  @media (max-width: 368px) {
     font-size: 1.5rem;
   }
 }
@@ -111,8 +111,7 @@
 .timeText {
   font-size: 1.25rem;
 
-  @media(max-width: 368px) {
+  @media (max-width: 368px) {
     font-size: 1.2rem;
   }
 }
-
