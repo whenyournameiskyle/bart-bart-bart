@@ -26,21 +26,22 @@ export default function SelectedStation({ selectedStation = {}, stationAbbr, sta
       }
     };
     fetchStationInfo();
-    const interval = setInterval(() => fetchStationInfo(), 60000);
+    const interval = setInterval(async () => await fetchStationInfo(), 60000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div>
       <Header shouldShowBack updatedTime={lastUpdated}>
-        {stationName && stationName}
+        {(stationName && stationName) || stationAbbr}
       </Header>
       <div>
         {hasStationInformation &&
           Object.entries(platforms).map(([platformNumber, destinations]) => (
             <div key={platformNumber}>
               <Subheader>{`Platform ${platformNumber}`}</Subheader>
-              {destinations.length &&
+              {destinations &&
+                destinations.length &&
                 destinations.map((destination) => (
                   <Destination
                     key={destination.destinationName}

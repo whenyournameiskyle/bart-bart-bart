@@ -54,9 +54,6 @@ export const StationList = ({ stationList = [] }) => {
     if (stationList.length && 'geolocation' in window.navigator) {
       getCurrentPosition();
     }
-
-    const interval = setInterval(() => getCurrentPosition(), 300000);
-    return () => clearInterval(interval);
   }, []);
 
   return (

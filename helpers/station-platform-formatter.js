@@ -1,6 +1,6 @@
 export default (destinations) => {
   const formattedStationInfo = {};
-  if (destinations.length) {
+  if (destinations && destinations.length) {
     for (let i = 0; i < destinations.length; i++) {
       const upcomingTrains = [];
       const destination = destinations[i];
