@@ -1,30 +1,32 @@
-import { useEffect } from 'react';
-import fetch from 'node-fetch';
 import Head from 'next/head';
 import { StationList } from '../components/station-list';
 import styles from '../styles/Home.module.css';
 
 export default function Home({ stationList }) {
-  useEffect(() => {
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'UA-146149246-1', {
-      page_location: window.location.href,
-      page_path: window.location.pathname,
-      page_title: window.document.title,
-    });
-  }, []);
-
   return (
     <div className={styles.container}>
       <Head>
         <title>BART Times</title>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146149246-1" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Simple site to get Bay Area Rapid Transit (BART) train times" />
+        <meta name="keywords" content="username generator, generate username, cute username" />
+        <meta name="language" content="English" />
+        <meta name="robots" content="index, follow" />
+        <meta name="title" content="BART Times - bartti.me" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://bartti.me/" />
+        <meta property="og:title" content="BART Times - bartti.me" />
+        <meta property="og:description" content="Simple site to get Bay Area Rapid Transit (BART) train times" />
+        {/* <meta property="og:image" content="https://i.imgur.com/HloOFs8.png" /> */}
+        {/* 
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://bartti.me/" />
+        <meta property="twitter:title" content="BART Times - bartti.me" />
+        <meta property="twitter:description" content="Simple site to get Bay Area Rapid Transit (BART) train times" />
+        <meta property="twitter:image" content="https://i.imgur.com/HloOFs8.png" /> */}
       </Head>
-      <StationList stationList={stationList} />
+      {stationList.length ? <StationList stationList={stationList} /> : <div> Loading... </div>}
     </div>
   );
 }

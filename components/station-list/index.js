@@ -61,7 +61,7 @@ export const StationList = ({ stationList = [] }) => {
 
   return (
     <div>
-      <Header>Pick a BART Station</Header>
+      <Header>Select a BART Station</Header>
       {closestStation.name && (
         <div>
           <Subheader>Closest Station</Subheader>

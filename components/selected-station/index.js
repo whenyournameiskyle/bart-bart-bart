@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import fetch from 'node-fetch';
-
 import { Destination } from '../destination';
 import { Header } from '../header';
 import { Subheader } from '../subheader';
@@ -9,7 +7,7 @@ import stationPlatformFormatter from '../../helpers/station-platform-formatter';
 import styles from '../../styles/Home.module.css';
 
 export default function SelectedStation({ selectedStation = {}, stationAbbr, stationName }) {
-  console.info({ selectedStation });
+  console.info('selectedStation', stationAbbr, stationName, selectedStation);
   const [lastUpdated, setLastUpdated] = useState(currentTimeStringFormatter());
   const [platforms, setPlatforms] = useState(selectedStation);
   const hasStationInformation = !!platforms[1] || !!platforms[2];

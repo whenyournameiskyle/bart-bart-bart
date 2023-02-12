@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import SelectedStation from '../components/selected-station';
 import stationPlatformFormatter from '../helpers/station-platform-formatter';
 
