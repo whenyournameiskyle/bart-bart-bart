@@ -1,3 +1,5 @@
+'use strict';
+
 export default (destinations) => {
   const formattedStationInfo = {};
   if (destinations && destinations.length) {

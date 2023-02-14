@@ -5,9 +5,14 @@ import { Subheader } from '../subheader';
 import currentTimeStringFormatter from '../../helpers/current-time-string-formatter';
 import stationPlatformFormatter from '../../helpers/station-platform-formatter';
 import styles from '../../styles/Home.module.css';
+import { logger } from '../../helpers/logtail.js';
 
 export default function SelectedStation({ selectedStation = {}, stationAbbr, stationName }) {
-  console.info('selectedStation', stationAbbr, stationName, selectedStation);
+  if (logger) {
+    logger.info(stationName, { stationAbbr, selectedStation });
+  } else {
+    console.info(stationName, stationAbbr, selectedStation);
+  }
   const [lastUpdated, setLastUpdated] = useState(currentTimeStringFormatter());
   const [platforms, setPlatforms] = useState(selectedStation);
   const hasStationInformation = !!platforms[1] || !!platforms[2];
@@ -15,13 +20,17 @@ export default function SelectedStation({ selectedStation = {}, stationAbbr, sta
   useEffect(() => {
     const fetchStationInfo = async () => {
       if (stationAbbr) {
-        const response = await fetch(
-          `https://api.bart.gov/api/etd.aspx?cmd=etd&orig=${stationAbbr}&key=MW9S-E7SL-26DU-VV8V&json=y`,
-        );
-        const data = await response.json();
-        const { etd: destinations } = data?.root?.station[0];
-        const formattedStationInfo = stationPlatformFormatter(destinations);
-        setPlatforms(formattedStationInfo);
+        try {
+          const response = await fetch(
+            `https://api.bart.gov/api/etd.aspx?cmd=etd&orig=${stationAbbr}&key=MW9S-E7SL-26DU-VV8V&json=y`,
+          );
+          const data = await response.json();
+          const { etd: destinations } = data?.root?.station[0];
+          const formattedStationInfo = stationPlatformFormatter(destinations);
+          setPlatforms(formattedStationInfo);
+        } catch (e) {
+          console.error('error in useEffect() fetchStationInfo()', e);
+        }
         setLastUpdated(currentTimeStringFormatter());
       }
     };
