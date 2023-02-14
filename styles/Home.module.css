@@ -39,6 +39,7 @@
   font-size: 1.6rem;
   font-weight: 300;
   left: 0;
+  bottom: 5px;
   padding: 0.5rem;
   position: absolute;
 }
@@ -53,16 +54,19 @@
 
 .destinationHeader {
   color: #333;
+  background-color: #c8c8c8;
   font-weight: 500;
   padding: 0.5rem 0 0.5rem 0.5rem;
   margin: 0;
 }
 
 .gray {
-  background-color: #aba682;
+  color: #fff;
+  background-color: #c8c8c8;
 }
 .undefined {
-  background-color: #aba682;
+  color: #fff;
+  background-color: #c8c8c8;
 }
 
 .green {

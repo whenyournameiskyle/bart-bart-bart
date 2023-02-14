@@ -8,11 +8,6 @@ import styles from '../../styles/Home.module.css';
 import { logger } from '../../helpers/logtail.js';
 
 export default function SelectedStation({ selectedStation = {}, stationAbbr, stationName }) {
-  if (logger) {
-    logger.info(stationName, { stationAbbr, selectedStation });
-  } else {
-    console.info(stationName, stationAbbr, selectedStation);
-  }
   const [lastUpdated, setLastUpdated] = useState(currentTimeStringFormatter());
   const [platforms, setPlatforms] = useState(selectedStation);
   const hasStationInformation = !!platforms[1] || !!platforms[2];
@@ -39,11 +34,37 @@ export default function SelectedStation({ selectedStation = {}, stationAbbr, sta
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (logger) {
+      logger.info(stationName, { stationAbbr, selectedStation });
+    } else {
+      console.info(stationName, stationAbbr, selectedStation);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      let currentRecentStations = window.localStorage.getItem('recentStations') || null;
+      const newStationObject = { [stationAbbr]: stationName };
+      if (currentRecentStations) {
+        if (currentRecentStations.includes(JSON.stringify(newStationObject))) {
+          return;
+        }
+        currentRecentStations = JSON.parse(currentRecentStations);
+        if (currentRecentStations.length >= 3) {
+          currentRecentStations.shift();
+        }
+        currentRecentStations.push(newStationObject);
+        window.localStorage.setItem('recentStations', JSON.stringify(currentRecentStations));
+      } else {
+        window.localStorage.setItem('recentStations', JSON.stringify([newStationObject]));
+      }
+    }
+  }, [stationAbbr, stationName]);
+
   return (
     <div>
-      <Header shouldShowBack updatedTime={lastUpdated}>
-        {(stationName && stationName) || stationAbbr}
-      </Header>
+      <Header shouldShowBack>{(stationName && stationName) || stationAbbr}</Header>
       <div>
         {hasStationInformation &&
           Object.entries(platforms).map(([platformNumber, destinations]) => (

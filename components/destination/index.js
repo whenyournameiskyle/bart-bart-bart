@@ -3,7 +3,7 @@ import styles from '../../styles/Home.module.css';
 export const Destination = ({ name, trains }) => {
   if (!trains || !trains.length) return <div />;
 
-  const destinationColor = trains[0].color || 'gray';
+  const destinationColor = trains[0]?.color || 'gray';
 
   return (
     <div className={styles.destination}>

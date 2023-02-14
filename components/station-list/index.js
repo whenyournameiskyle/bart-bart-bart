@@ -35,9 +35,10 @@ export const StationList = ({ stationList = [] }) => {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
-      const currentRecentStations = window.localStorage.getItem('recentStations') || null;
+      let currentRecentStations = window.localStorage.getItem('recentStations') || null;
       if (currentRecentStations) {
-        setRecentStations(currentRecentStations.split(','));
+        currentRecentStations = JSON.parse(currentRecentStations);
+        setRecentStations(currentRecentStations);
       }
     }
 
@@ -69,21 +70,21 @@ export const StationList = ({ stationList = [] }) => {
           </li>
         </div>
       )}
-      {recentStations && (
+      {recentStations && recentStations.length && (
         <ul>
           <Subheader>Recent Stations</Subheader>
-          {recentStations.length &&
-            recentStations.map((station, index) => {
-              const stationInfoArray = station.split(':');
-              if (stationInfoArray[0] === 'undefined' || stationInfoArray[1] === 'undefined') return null;
-              return (
-                <li key={index}>
-                  <Link href={`/station?key=${stationInfoArray[0]}`} key={index}>
-                    <div>{stationInfoArray[1]}</div>
-                  </Link>
-                </li>
-              );
-            })}
+          {recentStations.map((station) => {
+            if (!station) return null;
+            const abbr = Object.keys(station)[0];
+            const name = Object.values(station)[0];
+            return (
+              <li key={abbr}>
+                <Link href={`/station?key=${abbr}`}>
+                  <div>{name}</div>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
       <Subheader>All Stations</Subheader>

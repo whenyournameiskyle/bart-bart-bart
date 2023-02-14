@@ -1,9 +1,7 @@
 import Link from 'next/link';
-
-import currentTimeStringFormatter from '../../helpers/current-time-string-formatter';
 import styles from '../../styles/Home.module.css';
 
-export const Header = ({ children, shouldShowBack, updatedTime }) => (
+export const Header = ({ children, shouldShowBack }) => (
   <div className={styles.header}>
     {shouldShowBack && (
       <Link href="/">
@@ -12,7 +10,6 @@ export const Header = ({ children, shouldShowBack, updatedTime }) => (
     )}
     <div>
       <div>{children}</div>
-      <div className={styles.timeText}>{updatedTime || currentTimeStringFormatter()}</div>
     </div>
   </div>
 );
