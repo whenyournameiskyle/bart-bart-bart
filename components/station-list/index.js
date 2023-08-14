@@ -37,8 +37,14 @@ export const StationList = ({ stationList = [] }) => {
     if (typeof window !== 'undefined' && window.localStorage) {
       let currentRecentStations = window.localStorage.getItem('recentStations') || null;
       if (currentRecentStations) {
-        currentRecentStations = JSON.parse(currentRecentStations);
-        setRecentStations(currentRecentStations);
+        try {
+          currentRecentStations = JSON.parse(currentRecentStations);
+          setRecentStations(currentRecentStations);
+        } catch (e) {
+          console.error(`error in StationList useEffect() attempting to parse recentStations`, e);
+          window.localStorage.setItem('recentStations', '');
+          setRecentStations(null);
+        }
       }
     }
 
