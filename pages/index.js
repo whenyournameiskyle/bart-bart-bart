@@ -1,6 +1,6 @@
-import Head from 'next/head';
-import { StationList } from '../components/station-list';
-import styles from '../styles/Home.module.css';
+import Head from 'next/head'
+import { StationList } from '../components/station-list'
+import styles from '../styles/Home.module.css'
 
 export default function Home({ stationList }) {
   return (
@@ -18,26 +18,19 @@ export default function Home({ stationList }) {
         <meta property="og:url" content="https://bartti.me/" />
         <meta property="og:title" content="BART Times - bartti.me" />
         <meta property="og:description" content="Simple site to get Bay Area Rapid Transit (BART) train times" />
-        {/* <meta property="og:image" content="https://i.imgur.com/HloOFs8.png" /> */}
-        {/* 
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://bartti.me/" />
-        <meta property="twitter:title" content="BART Times - bartti.me" />
-        <meta property="twitter:description" content="Simple site to get Bay Area Rapid Transit (BART) train times" />
-        <meta property="twitter:image" content="https://i.imgur.com/HloOFs8.png" /> */}
       </Head>
       {stationList.length ? <StationList stationList={stationList} /> : <div> Loading... </div>}
     </div>
-  );
+  )
 }
 
 export async function getServerSideProps() {
   try {
-    const response = await fetch('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y');
-    const data = await response.json();
-    return { props: { stationList: data?.root?.stations?.station } };
+    const response = await fetch('https://api.bart.gov/api/stn.aspx?cmd=stns&key=MW9S-E7SL-26DU-VV8V&json=y')
+    const data = await response.json()
+    return { props: { stationList: data?.root?.stations?.station } }
   } catch (e) {
-    console.error('error in fetching in pages/index.js getServerSideProps()', e);
-    return { props: { stationList: {} } };
+    console.error('error in fetching in pages/index.js getServerSideProps()', e)
+    return { props: { stationList: {} } }
   }
 }

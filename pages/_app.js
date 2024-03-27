@@ -1,9 +1,9 @@
-import { Analytics } from '@vercel/analytics/react';
-import '../styles/globals.css';
-import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/react'
+import '../styles/globals.css'
+import Script from 'next/script'
 
-const GA_TRACKING_ID = 'G-VQFFMCB9MX';
-const scriptUrl = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
+const GA_TRACKING_ID = 'G-T24FB5FHFQ'
+const scriptUrl = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
       <Analytics />
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp
