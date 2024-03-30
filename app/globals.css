@@ -84,12 +84,6 @@ li:nth-child(even) {
   transition: color 0.5s;
 }
 
-@media only screen and (max-width: 768px) {
-  .ctaLinkLarge {
-    width: 100%;
-  }
-}
-
 .footer {
   padding: 1rem 0 5rem 0;
 }
@@ -106,10 +100,18 @@ li:nth-child(even) {
   justify-content: center;
 }
 
-@media only screen and (max-width: 768px) {
+.qrCode {
+  height: 300px;
+  width: 300px;
+}
+
+@media (max-width: 768px) {
   .qrContainer {
     display: flex;
     flex-direction: column;
-    padding: 0 5rem;
+    padding: 0 1rem;
+  }
+  .ctaLinkLarge {
+    width: 100%;
   }
 }
