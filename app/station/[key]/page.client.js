@@ -1,48 +1,40 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 
-import { Destination } from '../components/destination'
-import { Footer } from '../components/footer'
-import { Header } from '../components/header'
-import { Loading } from '../components/loading'
-import { Subheader } from '../components/subheader'
-import currentTimeStringFormatter from '../helpers/current-time-string-formatter'
-import stationPlatformFormatter from '../helpers/station-platform-formatter'
+import { Destination } from '../../components/destination'
+import { Footer } from '../../components/footer'
+import { Header } from '../../components/header'
+import { Loading } from '../../components/loading'
+import { Subheader } from '../../components/subheader'
 
-export default function SelectedStation() {
-  const searchParams = useSearchParams()
-  const stationAbbr = searchParams.get('key')
+export default function SelectedStation({ fetchStationData, stationAbbr }) {
   const [isLoading, setIsLoading] = useState(true)
-  const [lastUpdated, setLastUpdated] = useState(currentTimeStringFormatter())
+  const [lastUpdated, setLastUpdated] = useState('')
   const [stationName, setStationName] = useState('')
-  const [platforms, setPlatforms] = useState()
+  const [platforms, setPlatforms] = useState(null)
 
   useEffect(() => {
     setIsLoading(true)
-    const fetchStationInfo = async () => {
-      if (stationAbbr) {
-        try {
-          const response = await fetch(`https://api.bart.gov/api/etd.aspx?cmd=etd&orig=${stationAbbr}&key=MW9S-E7SL-26DU-VV8V&json=y`)
-          const data = await response.json()
-          const { etd: destinations } = data?.root?.station[0]
-          const formattedStationInfo = stationPlatformFormatter(destinations)
-          setPlatforms(formattedStationInfo)
-          setStationName(data?.root?.station[0]?.name)
-        } catch (e) {
-          console.error('error in useEffect() fetchStationInfo()', e)
-        }
-        setLastUpdated(currentTimeStringFormatter())
+    const fetchFetch = async () => {
+      try {
+        const data = await fetchStationData()
+        const { lastUpdated, platforms, stationName } = data
+        setLastUpdated(lastUpdated)
+        setPlatforms(platforms)
+        setStationName(stationName)
+        setIsLoading(false)
+      } catch (e) {
+        console.error('error in fetching station data', e)
         setIsLoading(false)
       }
     }
-    fetchStationInfo()
-    const interval = setInterval(async () => await fetchStationInfo(), 60000)
+    fetchFetch()
+    const interval = setInterval(async () => await fetchFetch(), 60000)
     return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
-    if (stationName && typeof window !== 'undefined' && window.localStorage) {
+    if (stationAbbr && stationName && typeof window !== 'undefined' && window.localStorage) {
       let currentRecentStations = window.localStorage.getItem('recentStations') || null
       const newStationObject = { [stationAbbr]: stationName }
       if (currentRecentStations) {

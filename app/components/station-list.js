@@ -71,7 +71,7 @@ export const StationList = ({ stationList = [] }) => {
         <div>
           <Subheader>Closest Station</Subheader>
           <li>
-            <Link href={`/station?key=${closestStation.abbr}`}>
+            <Link href={`/station/${closestStation.abbr}`}>
               <div>{closestStation.name}</div>
             </Link>
           </li>
@@ -86,7 +86,7 @@ export const StationList = ({ stationList = [] }) => {
             const name = Object.values(station)[0]
             return (
               <li key={abbr}>
-                <Link href={`/station?key=${abbr}`}>
+                <Link href={`/station/${abbr}`}>
                   <div>{name}</div>
                 </Link>
               </li>
@@ -99,7 +99,7 @@ export const StationList = ({ stationList = [] }) => {
         {stationList.length ? (
           stationList.map((station, index) => (
             <li key={index}>
-              <Link href={`/station?key=${station.abbr}`}>
+              <Link href={`/station/${station.abbr}`}>
                 <div>{station.name}</div>
               </Link>
             </li>

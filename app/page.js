@@ -1,7 +1,6 @@
 import { Footer } from './components/footer'
 import { Loading } from './components/loading'
 import { StationList } from './components/station-list'
-import styles from './page.module.css'
 
 const getStationList = async () => {
   try {
@@ -18,7 +17,7 @@ export default async function Page() {
   let stationList = await getStationList()
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       {stationList?.length ? <StationList stationList={stationList} /> : <Loading />} <Footer />
     </div>
   )
