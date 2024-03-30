@@ -76,19 +76,40 @@ li:nth-child(even) {
   font-size: 2rem;
   padding: 2rem 0;
   text-decoration: underline;
+  flex: 1;
 }
 
 .ctaLinkLarge:hover {
   color: #ff4200;
-  font-size: 2.25rem;
-  transition: color 0.5s, font-size 0.5s;
+  transition: color 0.5s;
+}
+
+@media only screen and (max-width: 768px) {
+  .ctaLinkLarge {
+    width: 100%;
+  }
 }
 
 .footer {
-  padding: 1rem 0 2rem 0;
+  padding: 1rem 0 5rem 0;
 }
 
 .container {
   height: 100vh;
   min-height: 100vh;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.qrContainer {
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .qrContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5rem;
+  }
 }
