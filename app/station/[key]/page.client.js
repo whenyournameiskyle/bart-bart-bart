@@ -6,10 +6,11 @@ import { Footer } from '../../components/footer'
 import { Header } from '../../components/header'
 import { Loading } from '../../components/loading'
 import { Subheader } from '../../components/subheader'
+import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
 
 export default function SelectedStation({ fetchStationData, stationAbbr }) {
   const [isLoading, setIsLoading] = useState(true)
-  const [lastUpdated, setLastUpdated] = useState('')
+  const [lastUpdated, setLastUpdated] = useState(currentTimeStringFormatter())
   const [stationName, setStationName] = useState('')
   const [platforms, setPlatforms] = useState(null)
 
@@ -18,8 +19,8 @@ export default function SelectedStation({ fetchStationData, stationAbbr }) {
     const fetchFetch = async () => {
       try {
         const data = await fetchStationData()
-        const { lastUpdated, platforms, stationName } = data
-        setLastUpdated(lastUpdated)
+        const { platforms, stationName } = data
+        setLastUpdated(currentTimeStringFormatter())
         setPlatforms(platforms)
         setStationName(stationName)
         setIsLoading(false)

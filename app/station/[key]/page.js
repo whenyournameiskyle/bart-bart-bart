@@ -1,6 +1,5 @@
 import SelectedStation from './page.client.js'
 import stationPlatformFormatter from '../../helpers/station-platform-formatter'
-import currentTimeStringFormatter from '../../helpers/current-time-string-formatter'
 
 export async function generateMetadata({ params }) {
   const stationAbbr = params.key
@@ -22,8 +21,7 @@ export default async function Page({ params }) {
     const { etd: destinations } = data?.root?.station[0]
     const platforms = stationPlatformFormatter(destinations)
     const stationName = data?.root?.station[0]?.name
-    const lastUpdated = currentTimeStringFormatter()
-    return { lastUpdated, platforms, stationName }
+    return { platforms, stationName }
   }
 
   return <SelectedStation fetchStationData={fetchStationData} stationAbbr={params.key} />
