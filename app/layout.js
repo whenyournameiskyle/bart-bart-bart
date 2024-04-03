@@ -6,7 +6,7 @@ import { Suspense } from 'react'
 export const metadata = {
   title: 'BART Times',
   description: 'Simple site to get Bay Area Rapid Transit (BART) train times',
-  keywords: 'Bay Area Rapid Transit, BART, Bay Area Rapid Transit times, BART train times, train times',
+  keywords: 'Bay Area Rapid Transit, BART, Bay Area Rapid Transit times, BART train times, san francisco train times, berkeley train times, oakland train times, BART webapp, BART browswer app',
   language: 'English',
 }
 

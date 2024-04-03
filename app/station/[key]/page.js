@@ -8,7 +8,10 @@ export async function generateMetadata({ params }) {
   const stationName = data?.root?.station[0]?.name
 
   return {
-    title: `BART Times${stationName ? ` for ${stationName} Station` : ''}`,
+    title: `${stationName ? `${stationName} Station ` : ''}BART Times`,
+    description: `Bay Area Rapid Transit (BART) times ${stationName ? ` for ${stationName} Station` : ''}`,
+    keywords: `Bay Area Rapid Transit, BART, Bay Area Rapid Transit times, BART train times, san francisco train times, berkeley train times, oakland train times, BART webapp, BART browswer app, ${stationName} Station, ${stationName}`,
+    language: 'English',
   }
 }
 
