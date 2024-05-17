@@ -4,7 +4,7 @@ export const Footer = () => (
   <div className="footer">
     <div className="tinyText">
       made with love by{' '}
-      <a className="ctaLink" href="https://linktr.ee/explodedsoda" _target="blank">
+      <a className="ctaLink" href="https://explodedsoda.me" _target="blank">
         @explodedsoda
       </a>
     </div>
